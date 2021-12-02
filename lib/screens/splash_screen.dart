@@ -20,6 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
       MediaQuery.of(context).size.height;
 
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
+
   @override
   void initState() {
     Timer(

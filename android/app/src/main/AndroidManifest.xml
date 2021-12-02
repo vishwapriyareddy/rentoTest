@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.roi_test">
+    package="com.example.roi_test">    
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
    <application
@@ -41,6 +41,6 @@
             android:value="2" />
         <meta-data 
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB1klGD-Mlf9naWKiGlo_4QPDsZ3dOTH9I"/>
+            android:value="AIzaSyBeBDvPPXlThtigw7X0p_fwvXzuB7Mr28w"/>
     </application>
 </manifest>

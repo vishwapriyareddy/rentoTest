@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:roi_test/providers/location_provider.dart';
 import 'package:roi_test/screens/home_screen.dart';
 import 'package:roi_test/screens/map_screen.dart';

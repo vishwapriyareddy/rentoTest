@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "994045848165",
-    "project_id": "rento-test-dac14",
-    "storage_bucket": "rento-test-dac14.appspot.com"
+    "project_number": "84724675970",
+    "project_id": "rento-users",
+    "storage_bucket": "rento-users.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:994045848165:android:6fe6203a14bdb74394f48c",
+        "mobilesdk_app_id": "1:84724675970:android:9951a0bbc3fb46b6960b9b",
         "android_client_info": {
           "package_name": "com.example.roi_test"
         }
       },
       "oauth_client": [
         {
-          "client_id": "994045848165-9o6nu79hu58661mqbj0k38gl7om4bp0v.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.roi_test",
-            "certificate_hash": "b1ef038db05f79497433ad95ac8ea39d9610f006"
-          }
-        },
-        {
-          "client_id": "994045848165-c1u5tk3pt4m8o5b1rmiq6k8bnenep1ih.apps.googleusercontent.com",
+          "client_id": "84724675970-l6167cr0qaa815aafedhaf3j28tc8n9m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_3GMt_pKoHtaF_NDVDmvdh16m5AL7J58"
+          "current_key": "AIzaSyA6g4DsSwoDhAga57RjsIFEImV8DycsfVU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "994045848165-c1u5tk3pt4m8o5b1rmiq6k8bnenep1ih.apps.googleusercontent.com",
+              "client_id": "84724675970-l6167cr0qaa815aafedhaf3j28tc8n9m.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roi_test/colors.dart';
 import 'package:roi_test/providers/location_provider.dart';
 import 'package:roi_test/screens/map_screen.dart';
+import 'package:roi_test/screens/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyAppBar extends StatefulWidget {
@@ -44,14 +46,16 @@ class _MyAppBarState extends State<MyAppBar> {
             if (locationData.permissionAllowed == true) {
               Navigator.pushNamed(context, MapScreen.id);
             } else {
-              print('Permission not aloowed');
+              print('Permission not allowed');
             }
           },
           child: Row(
             children: [
               Flexible(
                 child: Text(
-                  _address == null ? 'Address not set' : _address,
+                  _address != null
+                      ? _address
+                      : 'Press here to set your delivery location',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -67,6 +71,13 @@ class _MyAppBarState extends State<MyAppBar> {
             ],
           )),
       actions: [
+        IconButton(
+          icon: Icon(Icons.power_settings_new),
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+            Navigator.pushReplacementNamed(context, WelcomeScreen.id);
+          },
+        ),
         IconButton(
           icon: Icon(Icons.account_circle_outlined),
           onPressed: () {},

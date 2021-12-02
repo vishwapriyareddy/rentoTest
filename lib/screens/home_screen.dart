@@ -6,7 +6,9 @@ import 'package:roi_test/providers/auth_provider.dart';
 import 'package:roi_test/providers/location_provider.dart';
 import 'package:roi_test/screens/map_screen.dart';
 import 'package:roi_test/screens/welcome_screen.dart';
+import 'package:roi_test/widgets/image_slider.dart';
 import 'package:roi_test/widgets/my_appbar.dart';
+import 'package:roi_test/widgets/top_pick_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,24 +31,25 @@ class _HomeScreenState extends State<HomeScreen> {
             child: MyAppBar(), preferredSize: Size.fromHeight(112)),
         body: Center(
             child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          //mainAxisSize: MainAxisSize.min,
           children: [
-            ElevatedButton(
-                onPressed: () {
-                  auth.error = '';
-                  FirebaseAuth.instance.signOut().then((value) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => WelcomeScreen()));
-                  });
-                },
-                child: Text('Sign Out')),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, WelcomeScreen.id);
-                },
-                child: Text('Home Screen')),
+            ImageSlider(), Container(height: 300, child: TopPickService())
+            // ElevatedButton(
+            //     onPressed: () {
+            //       auth.error = '';
+            //       FirebaseAuth.instance.signOut().then((value) {
+            //         Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //                 builder: (context) => WelcomeScreen()));
+            //       });
+            //     },
+            //     child: Text('Sign Out')),
+            // ElevatedButton(
+            //     onPressed: () {
+            //       Navigator.pushReplacementNamed(context, WelcomeScreen.id);
+            //     },
+            //     child: Text('Home Screen')),
           ],
         )));
   }
