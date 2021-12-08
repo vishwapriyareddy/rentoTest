@@ -9,6 +9,7 @@ import 'package:roi_test/providers/location_provider.dart';
 import 'package:roi_test/screens/home_screen.dart';
 import 'package:roi_test/screens/login_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:roi_test/screens/main_screen.dart';
 
 class MapScreen extends StatefulWidget {
   static const String id = 'map-screen';
@@ -175,7 +176,7 @@ class _MapScreenState extends State<MapScreen> {
                                 // .then((value) {
                                 //  if (value == true) {
                                 Navigator.pushReplacementNamed(
-                                    context, HomeScreen.id);
+                                    context, MainScreen.id);
                                 // }
                                 //  });
                               }

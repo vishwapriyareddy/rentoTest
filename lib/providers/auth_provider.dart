@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roi_test/providers/location_provider.dart';
 import 'package:roi_test/screens/home_screen.dart';
+import 'package:roi_test/screens/main_screen.dart';
 import 'package:roi_test/screens/map_screen.dart';
 import 'package:roi_test/services/user_services.dart';
 
@@ -111,20 +112,20 @@ class AuthProvider with ChangeNotifier {
                               //need to check if user data already existed or not in db,
                               //if its Login. no new data,so no need to update
                               Navigator.pushReplacementNamed(
-                                  context, HomeScreen.id);
+                                  context, MainScreen.id);
                             } else {
                               //need to update new selected address.
                               updateUser(
                                   id: user.uid, number: user.phoneNumber);
                               Navigator.pushReplacementNamed(
-                                  context, HomeScreen.id);
+                                  context, MainScreen.id);
                             }
                           } else {
                             //user data does not exists
                             //will create new data in db
                             _createUser(id: user.uid, number: user.phoneNumber);
                             Navigator.pushReplacementNamed(
-                                context, HomeScreen.id);
+                                context, MainScreen.id);
                           }
                         });
                       } else {

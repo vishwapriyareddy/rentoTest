@@ -11,7 +11,7 @@ class TopPickService extends StatefulWidget {
 }
 
 class _TopPickServiceState extends State<TopPickService> {
-  Services _services = Services();
+  final Services _services = Services();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _TopPickServiceState extends State<TopPickService> {
                                   child: ClipRRect(
                                 borderRadius: BorderRadius.circular(4),
                                 child: Image.network(
-                                  document['imageUrl'],
+                                  document.get('imageUrl'),
                                   fit: BoxFit.cover,
                                 ),
                               )),

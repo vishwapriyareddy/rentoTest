@@ -52,7 +52,7 @@ class _ImageSliderState extends State<ImageSlider> {
                   );
                 } else {
                   return Padding(
-                    padding: const EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.only(top: 4),
                     child: CarouselSlider.builder(
                         itemCount: snapshot.data!.length,
                         itemBuilder: (BuildContext context, int index, int) {

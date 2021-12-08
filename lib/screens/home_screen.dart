@@ -27,30 +27,35 @@ class _HomeScreenState extends State<HomeScreen> {
     final locationData = Provider.of<LocationProvider>(context);
 
     return Scaffold(
-        appBar: PreferredSize(
-            child: MyAppBar(), preferredSize: Size.fromHeight(112)),
-        body: Center(
-            child: Column(
-          //mainAxisSize: MainAxisSize.min,
-          children: [
-            ImageSlider(), Container(height: 300, child: TopPickService())
-            // ElevatedButton(
-            //     onPressed: () {
-            //       auth.error = '';
-            //       FirebaseAuth.instance.signOut().then((value) {
-            //         Navigator.push(
-            //             context,
-            //             MaterialPageRoute(
-            //                 builder: (context) => WelcomeScreen()));
-            //       });
-            //     },
-            //     child: Text('Sign Out')),
-            // ElevatedButton(
-            //     onPressed: () {
-            //       Navigator.pushReplacementNamed(context, WelcomeScreen.id);
-            //     },
-            //     child: Text('Home Screen')),
-          ],
-        )));
+        // appBar: PreferredSize(
+        //     child: MyAppBar(), preferredSize: Size.fromHeight(112)),
+        body: NestedScrollView(
+      body: ListView(
+        padding: EdgeInsets.only(top: 0.0),
+        //mainAxisSize: MainAxisSize.min,
+        children: [
+          ImageSlider(), Container(height: 300, child: TopPickService())
+          // ElevatedButton(
+          //     onPressed: () {
+          //       auth.error = '';
+          //       FirebaseAuth.instance.signOut().then((value) {
+          //         Navigator.push(
+          //             context,
+          //             MaterialPageRoute(
+          //                 builder: (context) => WelcomeScreen()));
+          //       });
+          //     },
+          //     child: Text('Sign Out')),
+          // ElevatedButton(
+          //     onPressed: () {
+          //       Navigator.pushReplacementNamed(context, WelcomeScreen.id);
+          //     },
+          //     child: Text('Home Screen')),
+        ],
+      ),
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return [MyAppBar()];
+      },
+    ));
   }
 }
