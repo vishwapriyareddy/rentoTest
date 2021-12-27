@@ -37,7 +37,8 @@ class _MyAppBarState extends State<MyAppBar> {
   @override
   Widget build(BuildContext context) {
     final locationData = Provider.of<LocationProvider>(context);
-    return SliverAppBar(
+    return SliverAppBar(snap: true,
+      floating: true,
       automaticallyImplyLeading: false,
       backgroundColor: primaryColor,
       elevation: 0.0,
