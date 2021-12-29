@@ -1,3 +1,8 @@
+//import 'dart:html';
+
+//import 'dart:html';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -5,10 +10,15 @@ import 'package:roi_test/screens/favourites_screen.dart';
 import 'package:roi_test/screens/home_screen.dart';
 import 'package:roi_test/screens/my_orders_screen.dart';
 import 'package:roi_test/screens/profile_screen.dart';
+import 'package:roi_test/widgets/cart/bookingcart_notification.dart';
 
 class MainScreen extends StatelessWidget {
+  // final DocumentSnapshot document;
   static const String id = 'main-screen';
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({
+    Key? key,
+    // required this.document,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +60,11 @@ class MainScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 56),
+        child: CartNotification(),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: PersistentTabView(
         context, navBarHeight: 56,
         controller: _controller,

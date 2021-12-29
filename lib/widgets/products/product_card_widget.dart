@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:roi_test/screens/product_details_screen.dart';
+import 'package:roi_test/widgets/cart/booking.dart';
 
 class ProductCard extends StatelessWidget {
   final DocumentSnapshot document;
@@ -147,19 +148,27 @@ class ProductCard extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Card(
-                                color: Colors.pink,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 30.0, right: 30, top: 7, bottom: 7),
-                                  child: Text('ADD',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
-                                ),
+                              BookingForCard(
+                                document: document,
                               ),
                             ],
                           ),
+                          // child: Row(
+                          //   mainAxisAlignment: MainAxisAlignment.end,
+                          //   children: [
+                          //     Card(
+                          //       color: Colors.pink,
+                          //       child: Padding(
+                          //         padding: const EdgeInsets.only(
+                          //             left: 30.0, right: 30, top: 7, bottom: 7),
+                          //         child: Text('ADD',
+                          //             style: TextStyle(
+                          //                 fontWeight: FontWeight.bold,
+                          //                 color: Colors.white)),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                         ),
                       ],
                     )

@@ -91,42 +91,45 @@ class _AllServicesState extends State<AllServices> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                              child: Center(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.07,
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                shape: BoxShape.rectangle,
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                      document.get('imageUrl'),
-                                    ),
-                                    fit: BoxFit.contain),
-                                // child: Card(
-                                //     child: ClipRRect(
-                                //   borderRadius: BorderRadius.circular(4),
-                                //   child: Image.network(
-                                //     document.get('imageUrl'),
-                                //     fit: BoxFit.cover,
-                                //   ),
-                                // )),
+                          SizedBox(
+                            height: 60,
+                            child: Center(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.07,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  shape: BoxShape.rectangle,
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                        document.get('imageUrl'),
+                                      ),
+                                      fit: BoxFit.contain),
+                                  // child: Card(
+                                  //     child: ClipRRect(
+                                  //   borderRadius: BorderRadius.circular(4),
+                                  //   child: Image.network(
+                                  //     document.get('imageUrl'),
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  // )),
+                                ),
                               ),
                             ),
-                          )),
+                          ),
                           SizedBox(
                             height: 1.0,
                           ),
-                          Expanded(
+                          Flexible(
                             child: Align(
                               alignment: Alignment.center,
                               child: Container(
                                   width:
-                                      MediaQuery.of(context).size.width * 6.0,
+                                      MediaQuery.of(context).size.width * 1.0,
                                   height:
-                                      MediaQuery.of(context).size.height * 0.7,
+                                      MediaQuery.of(context).size.height * 0.5,
                                   child: Text(
                                     document.get('servicename'),
                                     textAlign: TextAlign.center,
@@ -135,7 +138,8 @@ class _AllServicesState extends State<AllServices> {
                                         .headline6!
                                         .copyWith(
                                           color: Colors.black,
-                                          fontSize: 12,
+                                          fontSize: 10,
+                                          // overflow: TextOverflow.ellipsis,
                                         ),
                                   )),
                             ),

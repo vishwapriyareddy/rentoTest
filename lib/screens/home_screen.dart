@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               ImageSlider(),
               Container(height: 150, child: TopPickService()),
-              Expanded(child: AllServices())
+              Expanded(flex: 1, child: AllServices())
               // ElevatedButton(
               //     onPressed: () {
               //       auth.error = '';

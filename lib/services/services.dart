@@ -20,4 +20,6 @@ class Services {
         .orderBy('servicename')
         .snapshots();
   }
+
+  getStoreServices() {}
 }

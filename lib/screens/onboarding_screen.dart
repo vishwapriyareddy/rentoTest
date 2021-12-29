@@ -17,7 +17,7 @@ int _currentPage = 0;
 List<Widget> _pages = [
   Column(
     children: [
-      Expanded(child: Image.asset('images/location.png')),
+      Expanded(flex: 1, child: Image.asset('images/location.png')),
       Text(
         'Set Your Delivery Location',
         style: kPageViewTextStyle,
@@ -27,7 +27,7 @@ List<Widget> _pages = [
   ),
   Column(
     children: [
-      Expanded(child: Image.asset('images/housekeeping.png')),
+      Expanded(flex: 1, child: Image.asset('images/housekeeping.png')),
       Text(
         'Services that matter',
         style: kPageViewTextStyle,
@@ -37,7 +37,7 @@ List<Widget> _pages = [
   ),
   Column(
     children: [
-      Expanded(child: Image.asset('images/RO.png')),
+      Expanded(flex: 1, child: Image.asset('images/RO.png')),
       Text(
         'Services that matter',
         style: kPageViewTextStyle,
@@ -53,6 +53,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Column(
       children: [
         Expanded(
+          flex: 1,
           child: PageView(
             controller: _controller,
             children: _pages,

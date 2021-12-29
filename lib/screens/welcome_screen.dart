@@ -84,6 +84,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                         Row(children: [
                           Expanded(
+                            flex: 1,
                             child: AbsorbPointer(
                               absorbing: _validPhoneNumber ? false : true,
                               child: TextButton(

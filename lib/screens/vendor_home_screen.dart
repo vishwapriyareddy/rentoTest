@@ -34,6 +34,7 @@ class VendorHomeScreen extends StatelessWidget {
                   RecentlyAddedProduct(),
                   FeaturedProduct(),
                   BestSellingProduct(),
+                  SizedBox(height: 70)
                 ])));
   }
 }

@@ -3,6 +3,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:roi_test/models/product_display.dart';
+import 'package:roi_test/widgets/products/bottom_sheet_container.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final DocumentSnapshot document;
@@ -32,65 +33,66 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.search))
         ],
       ),
-      bottomSheet: Container(
-        child: Row(
-          children: [
-            // Expanded(
-            //     child: InkWell(
-            //   onTap: () {
-            //     saveForLater();
-            //   },
-            //   child: Container(
-            //       height: 56,
-            //       color: Colors.grey[800],
-            //       child: Center(
-            //           child: Padding(
-            //         padding: const EdgeInsets.all(8.0),
-            //         child: Row(
-            //           mainAxisSize: MainAxisSize.min,
-            //           children: [
-            //             Icon(
-            //               CupertinoIcons.bookmark,
-            //               color: Colors.white,
-            //             ),
-            //             SizedBox(
-            //               width: 10,
-            //             ),
-            //             Text('Save for Later',
-            //                 style: TextStyle(
-            //                     color: Colors.white,
-            //                     fontWeight: FontWeight.bold)),
-            //           ],
-            //         ),
-            //       ))),
-            // )),
-            Expanded(
-                child: Container(
-                    height: 56,
-                    color: Colors.red[400],
-                    child: Center(
-                        child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.shopping_bag_outlined,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text('Add Service',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    )))),
-          ],
-        ),
-      ),
+      bottomSheet: BottomSheetContainer(document: widget.document),
+      //Container(
+      //   child: Row(
+      //     children: [
+      //       // Expanded(
+      //       //     child: InkWell(
+      //       //   onTap: () {
+      //       //     saveForLater();
+      //       //   },
+      //       //   child: Container(
+      //       //       height: 56,
+      //       //       color: Colors.grey[800],
+      //       //       child: Center(
+      //       //           child: Padding(
+      //       //         padding: const EdgeInsets.all(8.0),
+      //       //         child: Row(
+      //       //           mainAxisSize: MainAxisSize.min,
+      //       //           children: [
+      //       //             Icon(
+      //       //               CupertinoIcons.bookmark,
+      //       //               color: Colors.white,
+      //       //             ),
+      //       //             SizedBox(
+      //       //               width: 10,
+      //       //             ),
+      //       //             Text('Save for Later',
+      //       //                 style: TextStyle(
+      //       //                     color: Colors.white,
+      //       //                     fontWeight: FontWeight.bold)),
+      //       //           ],
+      //       //         ),
+      //       //       ))),
+      //       // )),
+      //       Expanded(
+      //           child: Container(
+      //               height: 56,
+      //               color: Colors.red[400],
+      //               child: Center(
+      //                   child: Padding(
+      //                 padding: const EdgeInsets.all(8.0),
+      //                 child: Row(
+      //                   mainAxisSize: MainAxisSize.min,
+      //                   children: [
+      //                     Icon(
+      //                       Icons.shopping_bag_outlined,
+      //                       color: Colors.white,
+      //                     ),
+      //                     SizedBox(
+      //                       width: 10,
+      //                     ),
+      //                     Text('Add Service',
+      //                         style: TextStyle(
+      //                             color: Colors.white,
+      //                             fontWeight: FontWeight.bold)),
+      //                   ],
+      //                 ),
+      //               )))),
+      //     ],
+      //   ),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
