@@ -24,11 +24,11 @@ class _CartNotificationState extends State<CartNotification> {
   Widget build(BuildContext context) {
     final _cartProvider = Provider.of<CartProvider>(context);
     _cartProvider.getCartTotal();
-    _cart.getServiceName().then((value) {
-      setState(() {
-        document = value;
-      });
-    });
+    // _cart.getServiceName().then((value) {
+    //   setState(() {
+    //     document = value;
+    //   });
+    // });
     return Visibility(
       visible: _cartProvider.cartQty > 0 ? true : false,
       child: Container(
