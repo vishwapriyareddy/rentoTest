@@ -26,6 +26,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final _cartProvider = Provider.of<CartProvider>(context);
+    var _payable = _cartProvider.subTotal;
     //  _cartProvider.document as DocumentSnapshot;
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -110,176 +111,256 @@ class _CartScreenState extends State<CartScreen> {
               )
             ];
           },
-          body: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            physics: AlwaysScrollableScrollPhysics(),
-            // physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.only(bottom: 100),
-            child: Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      child: CartList(
-                        document: widget.document,
+          body: _cartProvider.cartQty > 0
+              ? SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  physics: AlwaysScrollableScrollPhysics(),
+                  // physics: BouncingScrollPhysics(),
+                  padding: EdgeInsets.only(bottom: 100),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            child: CartList(
+                              document: widget.document,
+                            ),
+                          ),
+                          Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Bill Details',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Basket Value',
+                                        style: textStyle,
+                                      ),
+                                      Container(
+                                        height: 35,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Image.asset(
+                                                    'images/rupee.png',
+                                                    fit: BoxFit.contain,
+                                                    color: Colors.black,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.03,
+                                                  ),
+                                                  Text(
+                                                    '${_cartProvider.subTotal.toStringAsFixed(0)}',
+                                                    style: textStyle,
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Discount',
+                                        style: textStyle,
+                                      ),
+                                      Container(
+                                        height: 40,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 2),
+                                                    child: Image.asset(
+                                                      'images/rupee.png',
+                                                      fit: BoxFit.contain,
+                                                      color: Colors.black,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.03,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '${_cartProvider.saving.toStringAsFixed(0)}',
+                                                    style: textStyle,
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(color: Colors.grey),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Total Amount',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Container(
+                                        height: 40,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 2),
+                                                    child: Image.asset(
+                                                      'images/rupee.png',
+                                                      fit: BoxFit.contain,
+                                                      color: Colors.black,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.03,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '${_payable.toStringAsFixed(0)}',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: Theme.of(context)
+                                            .primaryColor
+                                            .withOpacity(.3)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Total Saving',
+                                            style:
+                                                TextStyle(color: Colors.blue),
+                                          ),
+                                          Container(
+                                            height: 40,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 2),
+                                                        child: Image.asset(
+                                                          'images/rupee.png',
+                                                          fit: BoxFit.contain,
+                                                          color: Colors.blue,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.03,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '${_cartProvider.saving.toStringAsFixed(0)}',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.blue,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Bill Details',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Basket Value',
-                                  style: textStyle,
-                                ),
-                                Container(
-                                  height: 35,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Image.asset(
-                                              'images/rupee.png',
-                                              fit: BoxFit.contain,
-                                              color: Colors.black,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.03,
-                                            ),
-                                            Text(
-                                              '${_cartProvider.subTotal.toStringAsFixed(0)}',
-                                              style: textStyle,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Discount',
-                                  style: textStyle,
-                                ),
-                                Container(
-                                  height: 40,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 2),
-                                              child: Image.asset(
-                                                'images/rupee.png',
-                                                fit: BoxFit.contain,
-                                                color: Colors.black,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.03,
-                                              ),
-                                            ),
-                                            Text(
-                                              '${discount}',
-                                              style: textStyle,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Divider(color: Colors.grey),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Total Amount',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Container(
-                                  height: 40,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 2),
-                                              child: Image.asset(
-                                                'images/rupee.png',
-                                                fit: BoxFit.contain,
-                                                color: Colors.black,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.03,
-                                              ),
-                                            ),
-                                            Text(
-                                              '${discount}',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
+                  ),
+                )
+              : Center(
+                  child: Text('Cart Empty, Continue Booking'),
                 ),
-              ),
-            ),
-          ),
         ));
   }
 }

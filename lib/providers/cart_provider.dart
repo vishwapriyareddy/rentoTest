@@ -6,11 +6,15 @@ class CartProvider with ChangeNotifier {
   // DocumentSnapshot? document;
 
   double subTotal = 0.0;
+  double saving = 0.0;
+
   QuerySnapshot? snapshot;
   int cartQty = 0;
   CartServices _cart = CartServices();
   Future<double?> getCartTotal() async {
     var cartTotal = 0.0;
+    var saving = 0.0;
+
     QuerySnapshot snapshot =
         await _cart.cart.doc(_cart.user.uid).collection('services').get();
     if (snapshot == null) {
@@ -18,11 +22,15 @@ class CartProvider with ChangeNotifier {
     }
     snapshot.docs.forEach((doc) {
       cartTotal = cartTotal + doc.get('total');
+      saving = saving +
+          ((doc.get('comparedPrice') - doc.get('price')) > 0
+              ? doc.get('comparedPrice') - doc.get('price')
+              : 0);
     });
     this.subTotal = cartTotal;
     this.cartQty = snapshot.size;
     this.snapshot = snapshot;
-    //this.document = document;
+    this.saving = saving;
     notifyListeners();
     return cartTotal;
   }

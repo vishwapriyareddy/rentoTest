@@ -8,6 +8,7 @@ class CartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double saving = document.get('comparedPrice') - document.get('price');
     return Container(
       height: 120,
       decoration: BoxDecoration(
@@ -73,7 +74,37 @@ class CartCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: BookingForCard(document: document),
-              ))
+              )),
+          if (saving > 0)
+            Positioned(
+                child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: CircleAvatar(
+                backgroundColor: Colors.redAccent,
+                child: FittedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Image.asset(
+                            'images/rupee.png',
+                            fit: BoxFit.contain,
+                            color: Colors.white,
+                            width: MediaQuery.of(context).size.width * 0.03,
+                          ),
+                        ),
+                        Text(
+                          '${saving.toStringAsFixed(0)}',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ))
         ],
       ),
     );

@@ -40,8 +40,8 @@ class CartServices {
     return snapshot.exists ? snapshot.get('servicename') : null;
   }
 
-  // Future<DocumentSnapshot> getServiceName() async {
-  //   DocumentSnapshot doc = await cart.doc(user.uid).get();
-  //   return doc;
-  // }
+  Future<DocumentSnapshot> getServiName() async {
+    DocumentSnapshot doc = await cart.doc(user.uid).get();
+    return doc;
+  }
 }

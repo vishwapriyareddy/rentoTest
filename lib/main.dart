@@ -83,7 +83,22 @@ class MyApp extends StatelessWidget {
                 },
               );
             }
+          if (settings.name == CartScreen.id) {
+              // Cast the arguments to the correct
+              // type: ScreenArguments.
+              final args = settings.arguments as CartDetails;
 
+              // Then, extract the required data from
+              // the arguments and pass the data to the
+              // correct screen.
+              return MaterialPageRoute(
+                builder: (context) {
+                  return CartScreen(
+                    document: args.document,
+                  );
+                },
+              );
+            }
             assert(false, 'Need to implement ${settings.name}');
             return null;
           },
@@ -96,9 +111,9 @@ class MyApp extends StatelessWidget {
             VendorHomeScreen.id: (context) => VendorHomeScreen(),
             ProductList.id: (context) => ProductList(),
             MainScreen.id: (context) => MainScreen(),
-            CartScreen.id: (context) => CartScreen(
-                  document: document!,
-                )
+           // CartScreen.id: (context) => CartScreen(
+             //     document: document!,
+               // )
           },
           builder: EasyLoading.init(),
         ));
