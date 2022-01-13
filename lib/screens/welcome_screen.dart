@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roi_test/colors.dart';
-import 'package:roi_test/constants.dart';
+
 import 'package:roi_test/providers/auth_provider.dart';
 import 'package:roi_test/providers/location_provider.dart';
+import 'package:roi_test/screens/landing_screen.dart';
+import 'package:roi_test/screens/main_screen.dart';
 import 'package:roi_test/screens/map_screen.dart';
 import 'package:roi_test/screens/onboarding_screen.dart';
 
@@ -17,7 +20,22 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  // @override
+  // void initState() {
+  //   Timer.run(() {
+  //     if (_auth.currentUser != null) {
+  //       Navigator.pushReplacementNamed(context, LandingScreen.id);
+  //     } else {
+  //       Navigator.pushReplacementNamed(context, WelcomeScreen.id);
+  //     }
+  //   });
+
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
@@ -144,13 +162,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           padding: const EdgeInsets.all(20.0),
           child: Stack(
             children: [
-              Positioned(
-                right: 0.0,
-                top: 10.0,
-                child: TextButton(
-                    onPressed: () {},
-                    child: Text('SKIP', style: TextStyle(color: primaryColor))),
-              ),
               Column(
                 children: [
                   Expanded(child: OnboardingScreen()),

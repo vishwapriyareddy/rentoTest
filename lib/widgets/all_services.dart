@@ -1,6 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/colors/gf_color.dart';
+import 'package:getwidget/components/shimmer/gf_shimmer.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 import 'package:roi_test/colors.dart';
+import 'package:roi_test/providers/service_store.dart';
+import 'package:roi_test/screens/vendor_home_screen.dart';
 
 class AllServices extends StatefulWidget {
   const AllServices({Key? key}) : super(key: key);
@@ -35,6 +42,8 @@ class _AllServicesState extends State<AllServices> {
 
   @override
   Widget build(BuildContext context) {
+    final _serviceStore = Provider.of<ServiceStore>(context);
+
     return FutureBuilder(
       future: allServices(),
       builder: (BuildContext context,
@@ -59,77 +68,74 @@ class _AllServicesState extends State<AllServices> {
                 ]),
               ),
               ...snapshot.data!.map((DocumentSnapshot document) {
-                return Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                    width: 85,
-                    height: 120,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                              offset: Offset(0, 4),
-                              blurRadius: 20,
-                              color: Color(0xFFB0CCE1).withOpacity(0.32))
-                        ]),
-                    // decoration: BoxDecoration(
-                    //   // borderRadius: BorderRadius.all(Radius.circular(2)),
-                    //   shape: BoxShape.rectangle,
-                    //   border: Border.all(
-                    //     color: Colors.black54,
-                    //     width: 0.05,
-                    //   ),
-                    //   gradient: RadialGradient(colors: [
-                    //     Colors.white,
-                    //     primaryColor,
-                    //   ], radius: 0.05, focal: Alignment.center),
-                    // ),
-                    // margin: EdgeInsets.all(0.0),
-                    child: Card(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 60,
-                            child: Center(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.07,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.1,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  shape: BoxShape.rectangle,
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        document.get('imageUrl'),
-                                      ),
-                                      fit: BoxFit.contain),
-                                  // child: Card(
-                                  //     child: ClipRRect(
-                                  //   borderRadius: BorderRadius.circular(4),
-                                  //   child: Image.network(
-                                  //     document.get('imageUrl'),
-                                  //     fit: BoxFit.cover,
-                                  //   ),
-                                  // )),
-                                ),
+                return InkWell(
+                  onTap: () {
+                    _serviceStore.getSelectedServiceStore(document);
+                    pushNewScreenWithRouteSettings(
+                      context,
+                      settings: RouteSettings(name: VendorHomeScreen.id),
+                      screen: VendorHomeScreen(),
+                      withNavBar: true,
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: Container(
+                      width: 90,
+                      height: 100,
+                      child: Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: Container(
+                                    //width:
+                                    // MediaQuery.of(context).size.width * 0.07,
+                                    //height:
+                                    //MediaQuery.of(context).size.height * 0.1,
+                                    //decoration: BoxDecoration(
+                                    //borderRadius:
+                                    //  BorderRadius.all(Radius.circular(10)),
+                                    //shape: BoxShape.rectangle,
+                                    // image: DecorationImage(
+                                    //     image: NetworkImage(
+                                    //       document.get('imageUrl'),
+                                    //     ),
+                                    //     fit: BoxFit.contain),
+                                    child: Card(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(4),
+                                    child: CachedNetworkImage(
+                                        imageUrl: document.get('imageUrl'),
+                                        fit: BoxFit.contain,
+                                        placeholder: (context, url) =>
+                                            GFShimmer(
+                                                showShimmerEffect: true,
+                                                mainColor: Colors.grey.shade300,
+                                                secondaryColor:
+                                                    Colors.grey.shade200,
+                                                child: Container(
+                                                  color: Colors.grey.shade300,
+                                                  height: 40,
+                                                  width: 40,
+                                                ))),
+                                  ),
+                                )),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 1.0,
-                          ),
-                          Flexible(
-                            child: Align(
+                            SizedBox(
+                              height: 1.0,
+                            ),
+                            Align(
                               alignment: Alignment.center,
                               child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 1.0,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.5,
+                                  width: 52,
+                                  height: 40,
                                   child: Text(
                                     document.get('servicename'),
                                     textAlign: TextAlign.center,
@@ -137,17 +143,17 @@ class _AllServicesState extends State<AllServices> {
                                         .textTheme
                                         .headline6!
                                         .copyWith(
-                                          color: Colors.black,
-                                          fontSize: 10,
+                                          color: GFColors.FOCUS,
+                                          fontSize: 8,
                                           // overflow: TextOverflow.ellipsis,
                                         ),
                                   )),
                             ),
-                          ),
-                          SizedBox(
-                            height: 1.0,
-                          ),
-                        ],
+                            //SizedBox(
+                            //height: 1.0,
+                            //),
+                          ],
+                        ),
                       ),
                     ),
                   ),

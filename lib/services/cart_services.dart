@@ -8,8 +8,8 @@ class CartServices {
   Future<void> addToCart(document) {
     cart.doc(user.uid).set({
       'user': user.uid,
-      // 'supervisorUid': document.data()['supervoisor']['supervisorUid'],
-      //'serviceName': document.data()['supervoisor']['servicename']
+      'supervisorUid': document.data()['supervoisor']['supervisorUid'],
+      'serviceName': document.data()['supervoisor']['servicename']
     });
     return cart.doc(user.uid).collection('services').add({
       'serviceId': document.data()['serviceId'],
@@ -35,13 +35,17 @@ class CartServices {
     }
   }
 
-  Future<String> checkSupervisor() async {
+  Future<String?> checkSupervisor() async {
     final snapshot = await cart.doc(user.uid).get();
-    return snapshot.exists ? snapshot.get('servicename') : null;
+    return snapshot.exists ? snapshot.get('serviceName') : null;
   }
 
-  Future<DocumentSnapshot> getServiName() async {
-    DocumentSnapshot doc = await cart.doc(user.uid).get();
-    return doc;
+  Future<void> deleteCart() async {
+    final result =
+        await cart.doc(user.uid).collection('services').get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
   }
 }

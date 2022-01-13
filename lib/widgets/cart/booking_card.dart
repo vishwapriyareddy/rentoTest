@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/shimmer/gf_shimmer.dart';
 import 'package:roi_test/widgets/cart/booking.dart';
 
 class CartCard extends StatelessWidget {
@@ -25,12 +27,19 @@ class CartCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      document.get(
-                        'serviceImage',
-                      ),
-                      fit: BoxFit.fill,
-                    ),
+                    child: CachedNetworkImage(
+                        imageUrl: document.get(
+                          'serviceImage',
+                        ),
+                        fit: BoxFit.contain,
+                        placeholder: (context, url) => GFShimmer(
+                            showShimmerEffect: true,
+                            mainColor: Colors.grey.shade300,
+                            secondaryColor: Colors.grey.shade200,
+                            child: Container(
+                                color: Colors.grey.shade300,
+                                width: 120,
+                                height: 140))),
                   ),
                 ),
               ),
@@ -84,19 +93,27 @@ class CartCard extends StatelessWidget {
                 child: FittedBox(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
+                    child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 2),
-                          child: Image.asset(
-                            'images/rupee.png',
-                            fit: BoxFit.contain,
-                            color: Colors.white,
-                            width: MediaQuery.of(context).size.width * 0.03,
-                          ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 2),
+                              child: Image.asset(
+                                'images/rupee.png',
+                                fit: BoxFit.contain,
+                                color: Colors.white,
+                                width: MediaQuery.of(context).size.width * 0.03,
+                              ),
+                            ),
+                            Text(
+                              '${saving.toStringAsFixed(0)}',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
                         ),
                         Text(
-                          '${saving.toStringAsFixed(0)}',
+                          'SAVED',
                           style: TextStyle(color: Colors.white),
                         ),
                       ],

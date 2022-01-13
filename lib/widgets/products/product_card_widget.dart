@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/shimmer/gf_shimmer.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:roi_test/screens/product_details_screen.dart';
 import 'package:roi_test/widgets/cart/booking.dart';
@@ -49,10 +51,18 @@ class ProductCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         child: Hero(
                           tag: 'service${document.get('serviceName')}',
-                          child: Image.network(
-                            document.get('serviceImage'),
-                            fit: BoxFit.fill,
-                          ),
+                          child: CachedNetworkImage(
+                              imageUrl: document.get('serviceImage'),
+                              fit: BoxFit.contain,
+                              placeholder: (context, url) => GFShimmer(
+                                  showShimmerEffect: true,
+                                  mainColor: Colors.grey.shade300,
+                                  secondaryColor: Colors.grey.shade200,
+                                  child: Container(
+                                    color: Colors.grey.shade300,
+                                    height: 40,
+                                    width: 40,
+                                  ))),
                         ),
                       ),
                     ),

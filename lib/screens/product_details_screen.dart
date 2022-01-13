@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/shimmer/gf_shimmer.dart';
 import 'package:roi_test/models/product_display.dart';
 import 'package:roi_test/widgets/products/bottom_sheet_container.dart';
 
@@ -164,11 +166,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               padding: const EdgeInsets.all(20),
               child: Hero(
                 tag: 'service${widget.document.get('serviceName')}',
-                child: Image.network(
-                  widget.document.get('serviceImage'),
-                ),
+                child: CachedNetworkImage(
+                    imageUrl: widget.document.get('serviceImage'),
+                    placeholder: (context, url) => GFShimmer(
+                        showShimmerEffect: true,
+                        mainColor: Colors.grey.shade300,
+                        secondaryColor: Colors.grey.shade200,
+                        child: Container(
+                          color: Colors.grey.shade300,
+                          // height: MediaQuery.of(context).size.height,
+                          //width: MediaQuery.of(context).size.width,
+                        ))),
               ),
             ),
+
             Divider(
               color: Colors.grey[300],
               thickness: 6,

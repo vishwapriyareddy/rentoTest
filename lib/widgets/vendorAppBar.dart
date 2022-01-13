@@ -38,71 +38,69 @@ class VendorAppBar extends StatelessWidget {
                 child: Container(
                   //     height: 80,
                   color: Colors.white.withOpacity(.7),
-                  child: Expanded(
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              _servicStore.serviceDetails!['dialog'],
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              //   mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.green,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      launch(
-                                          'tel:${_servicStore.serviceDetails!['mobile']}');
-                                    },
-                                    icon: Icon(Icons.phone),
-                                    color: Colors.white,
-                                  ),
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            _servicStore.serviceDetails!['dialog'],
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            //   mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.green,
+                                child: IconButton(
+                                  onPressed: () {
+                                    launch(
+                                        'tel:${_servicStore.serviceDetails!['mobile']}');
+                                  },
+                                  icon: Icon(Icons.phone),
+                                  color: Colors.white,
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: Colors.yellow,
-                            ),
-                            Icon(
-                              Icons.star,
-                              color: Colors.yellow,
-                            ),
-                            Icon(
-                              Icons.star,
-                              color: Colors.yellow,
-                            ),
-                            Icon(
-                              Icons.star_half,
-                              color: Colors.yellow,
-                            ),
-                            Icon(
-                              Icons.star_outline,
-                              color: Colors.yellow,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text('(3.5)'),
-                          ],
-                        ),
-                      ],
-                    ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                          ),
+                          Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                          ),
+                          Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                          ),
+                          Icon(
+                            Icons.star_half,
+                            color: Colors.yellow,
+                          ),
+                          Icon(
+                            Icons.star_outline,
+                            color: Colors.yellow,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text('(3.5)'),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -4,6 +4,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:roi_test/screens/welcome_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
+  static const String id = 'profile-screen';
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override

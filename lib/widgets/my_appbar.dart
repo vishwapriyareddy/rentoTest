@@ -37,7 +37,8 @@ class _MyAppBarState extends State<MyAppBar> {
   @override
   Widget build(BuildContext context) {
     final locationData = Provider.of<LocationProvider>(context);
-    return SliverAppBar(snap: true,
+    return SliverAppBar(
+      snap: true,
       floating: true,
       automaticallyImplyLeading: false,
       backgroundColor: primaryColor,
@@ -45,25 +46,26 @@ class _MyAppBarState extends State<MyAppBar> {
       // leading: Container(),
       title: TextButton(
           onPressed: () {
-            locationData.getCurrentPosition();
-            if (locationData.permissionAllowed == true) {
-              pushNewScreenWithRouteSettings(
-                context,
-                settings: RouteSettings(name: MapScreen.id),
-                screen: MapScreen(),
-                withNavBar: false,
-                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-              );
-            } else {
-              print('Permission not allowed');
-            }
+            locationData.getCurrentPosition().then((value) {
+              if (locationData.permissionAllowed == true) {
+                pushNewScreenWithRouteSettings(
+                  context,
+                  settings: RouteSettings(name: MapScreen.id),
+                  screen: MapScreen(),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
+              } else {
+                print('Permission not allowed');
+              }
+            });
           },
           child: Row(
             children: [
               Flexible(
                 child: Text(
                   _address == null
-                      ? 'Press here to set your delivery location'
+                      ? 'Press here to set your service location'
                       : _address,
                   style: TextStyle(
                       color: Colors.white,

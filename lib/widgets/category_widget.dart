@@ -1,7 +1,9 @@
 //import 'dart:html';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/shimmer/gf_shimmer.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:roi_test/providers/service_store.dart';
@@ -91,12 +93,30 @@ class _VendorCategoriesState extends State<VendorCategories> {
                               child: Card(
                                 child: Column(
                                   children: [
-                                    Center(
-                                      child: Image.network(
-                                        document.get('image'),
-                                        fit: BoxFit.contain,
-                                        // width: MediaQuery.of(context).size.width *
-                                        //   0.5,
+                                    SizedBox(
+                                      height: 75,
+                                      width: 120,
+                                      child: Center(
+                                        child: CachedNetworkImage(
+                                            imageUrl: document.get('image'),
+                                            fit: BoxFit.contain,
+                                            placeholder: (context, url) =>
+                                                GFShimmer(
+                                                    showShimmerEffect: true,
+                                                    mainColor:
+                                                        Colors.grey.shade300,
+                                                    secondaryColor:
+                                                        Colors.grey.shade200,
+                                                    child: Container(
+                                                      color:
+                                                          Colors.grey.shade300,
+                                                      height: 75,
+                                                      width: 110,
+                                                      // width: 120,
+                                                    ))
+                                            // width: MediaQuery.of(context).size.width *
+                                            //   0.5,
+                                            ),
                                       ),
                                     ),
                                     Padding(

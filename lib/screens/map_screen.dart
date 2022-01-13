@@ -7,6 +7,7 @@ import 'package:roi_test/colors.dart';
 import 'package:roi_test/providers/auth_provider.dart';
 import 'package:roi_test/providers/location_provider.dart';
 import 'package:roi_test/screens/home_screen.dart';
+import 'package:roi_test/screens/landing_screen.dart';
 import 'package:roi_test/screens/login_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:roi_test/screens/main_screen.dart';
@@ -79,10 +80,17 @@ class _MapScreenState extends State<MapScreen> {
             onCameraMove: (CameraPosition position) {
               setState(() {
                 _locating = true;
+                // _mapController!.moveCamera(CameraUpdate.newLatLng(
+                //   LatLng(locationData),
+                // ));
               });
               locationData.onCameraMove(position);
             },
-            onMapCreated: onCreated,
+            onMapCreated: (controller) {
+              setState(() {
+                _mapController = controller;
+              });
+            },
             onCameraIdle: () {
               setState(() {
                 _locating = false;
@@ -165,9 +173,11 @@ class _MapScreenState extends State<MapScreen> {
                                     context, LoginScreen.id);
                               } else {
                                 setState(() {
-                                  _auth.latitude = locationData.latitude!;
+                                  _auth.latitude = locationData.latitude;
                                   _auth.longitude = locationData.longitude!;
                                   _auth.address = locationData.selectedAddress!;
+                                  _auth.location =
+                                      locationData.selectedAddress!;
                                 });
                                 _auth.updateUser(
                                   id: user!.uid,

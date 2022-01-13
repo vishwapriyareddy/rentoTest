@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:getwidget/getwidget.dart';
 
 class ImageSlider extends StatefulWidget {
   const ImageSlider({Key? key}) : super(key: key);
@@ -61,10 +63,19 @@ class _ImageSliderState extends State<ImageSlider> {
                           Map<String, dynamic>? getImage = sliderImage.data();
                           return SizedBox(
                               width: MediaQuery.of(context).size.width,
-                              child: Image.network(
-                                getImage!['image'],
-                                fit: BoxFit.cover,
-                              ));
+                              child: CachedNetworkImage(
+                                  imageUrl: getImage!['image'],
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => GFShimmer(
+                                      showShimmerEffect: true,
+                                      mainColor: Colors.grey.shade400,
+                                      secondaryColor: Colors.grey.shade200,
+                                      child: Container(
+                                        color: Colors.grey.shade300,
+                                        height: 200,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                      ))));
                         },
                         options: CarouselOptions(
                             viewportFraction: 1,

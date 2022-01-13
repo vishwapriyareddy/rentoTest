@@ -52,6 +52,7 @@ class _ProductFilterWidgetState extends State<ProductFilterWidget> {
               snapshot.data!.data() as Map<String, dynamic>;
           return Container(
               height: 50,
+              //  width: double.infinity,
               color: Colors.grey,
               child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -72,7 +73,7 @@ class _ProductFilterWidgetState extends State<ProductFilterWidget> {
                   ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    physics: ScrollPhysics(),
+                    physics: AlwaysScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 10),

@@ -66,6 +66,7 @@ class _ProductListWidgetState extends State<ProductListWidget> {
               ),
             ),
             ListView(
+              padding: EdgeInsets.zero,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -76,6 +77,9 @@ class _ProductListWidgetState extends State<ProductListWidget> {
                 );
               }).toList(),
             ),
+            SizedBox(
+              height: 50,
+            )
           ],
         );
       },

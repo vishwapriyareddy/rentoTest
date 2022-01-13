@@ -51,6 +51,5 @@ class _CartListState extends State<CartList> {
         );
       },
     );
-    ;
   }
 }

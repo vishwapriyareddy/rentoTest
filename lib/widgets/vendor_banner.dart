@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/shimmer/gf_shimmer.dart';
 import 'package:provider/provider.dart';
 import 'package:roi_test/providers/service_store.dart';
 import 'package:roi_test/services/services.dart';
@@ -74,11 +76,20 @@ class _VenndorBannerState extends State<VenndorBanner> {
                               snapshot.data![index];
                           Map<String, dynamic>? getImage = sliderImage.data();
                           return SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: Image.network(
-                                getImage!['imageUrl'],
-                                fit: BoxFit.cover,
-                              ));
+                            width: MediaQuery.of(context).size.width,
+                            child: CachedNetworkImage(
+                                imageUrl: getImage!['imageUrl'],
+                                fit: BoxFit.contain,
+                                placeholder: (context, url) => GFShimmer(
+                                    showShimmerEffect: true,
+                                    mainColor: Colors.grey.shade400,
+                                    secondaryColor: Colors.grey.shade200,
+                                    child: Container(
+                                      color: Colors.grey.shade300,
+                                      height: 200,
+                                      width: MediaQuery.of(context).size.width,
+                                    ))),
+                          );
                         },
                         options: CarouselOptions(
                             viewportFraction: 1,

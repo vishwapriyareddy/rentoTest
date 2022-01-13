@@ -81,8 +81,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {
                             auth.loading = true;
                             auth.screen = 'Mapscree';
-                            auth.latitude = locationData.latitude!;
-                            auth.longitude = locationData.longitude!;
+                            auth.latitude = locationData.latitude;
+                            auth.longitude = locationData.longitude;
                             auth.address = locationData.selectedAddress!;
                           });
                           String number = '+91${_phoneNumbercontroller.text}';

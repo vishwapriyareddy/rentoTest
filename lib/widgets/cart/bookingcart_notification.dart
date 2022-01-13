@@ -18,17 +18,19 @@ class CartNotification extends StatefulWidget {
 }
 
 class _CartNotificationState extends State<CartNotification> {
-  CartServices _cart = CartServices();
-  DocumentSnapshot? document;
+  // CartServices _cart = CartServices();
+  // DocumentSnapshot? document;
   @override
   Widget build(BuildContext context) {
     final _cartProvider = Provider.of<CartProvider>(context);
     _cartProvider.getCartTotal();
-    _cart.getServiName().then((value) {
-      setState(() {
-        document = value;
-      });
-    });
+    _cartProvider.getServiName();
+    //   if (mounted) {
+    //     setState(() {
+    //       document = value;
+    //     });
+    //   }
+    // });
     return Visibility(
       visible: _cartProvider.cartQty > 0 ? true : false,
       child: Container(
@@ -81,7 +83,7 @@ class _CartNotificationState extends State<CartNotification> {
                     context,
                     settings: RouteSettings(name: CartScreen.id),
                     screen: CartScreen(
-                      document: document!,
+                      document: _cartProvider.document!,
                     ),
                     withNavBar: false,
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,

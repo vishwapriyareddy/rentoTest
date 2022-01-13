@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:roi_test/screens/home_screen.dart';
+import 'package:roi_test/screens/landing_screen.dart';
 import 'package:roi_test/screens/main_screen.dart';
 
 import 'welcome_screen.dart';
@@ -16,6 +18,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 class _SplashScreenState extends State<SplashScreen> {
   double deviceHeight(BuildContext context) =>
       MediaQuery.of(context).size.height;
@@ -28,36 +32,45 @@ class _SplashScreenState extends State<SplashScreen> {
         Duration(
           seconds: 3,
         ), () {
-      // Navigator.pushReplacement(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => WelcomeScreen(),
-      //     ));
-      FirebaseAuth.instance.authStateChanges().listen((User? user) {
-        if (user == null) {
-          Navigator.pushReplacementNamed(context, WelcomeScreen.id);
-        } else {
-          Navigator.pushReplacementNamed(context, MainScreen.id);
-        }
-      });
+      //   Navigator.pushReplacement(
+      //context,
+      //MaterialPageRoute(
+      // builder: (context) => WelcomeScreen(),
+      // ));
+
+      if (_auth.currentUser != null) {
+        Navigator.pushReplacementNamed(context, LandingScreen.id);
+      } else {
+        Navigator.pushReplacementNamed(context, WelcomeScreen.id);
+      }
     });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: deviceHeight(context) * 0.09,
-            left: deviceWidth(context) * 0.09,
-            right: deviceWidth(context) * 0.09,
-            bottom: deviceHeight(context) * 0.09,
-          ),
-          child: Hero(tag: 'logo', child: Image.asset('images/splash.png')),
-        ),
-      ),
-    );
+        body: AnimatedSplashScreen(
+            duration: 1000,
+            splashTransition: SplashTransition.fadeTransition,
+            splashIconSize: deviceWidth(context) * 0.8,
+            splash: Image.asset(
+              "images/splash.png",
+              fit: BoxFit.contain,
+            ),
+            nextScreen: WelcomeScreen())
+        //Center(
+        // child: Padding(
+        //   padding: EdgeInsets.only(
+        //     top: deviceHeight(context) * 0.09,
+        //     left: deviceWidth(context) * 0.09,
+        //     right: deviceWidth(context) * 0.09,
+        //     bottom: deviceHeight(context) * 0.09,
+        //   ),
+        //   child: Hero(tag: 'logo', child: Image.asset('images/splash.png')),
+        // ),
+        //),
+        );
   }
 }

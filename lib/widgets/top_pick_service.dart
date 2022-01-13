@@ -1,8 +1,12 @@
 //import 'dart:html';
 
+// ignore_for_file: sized_box_for_whitespace
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:getwidget/colors/gf_color.dart';
+import 'package:getwidget/components/shimmer/gf_shimmer.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:roi_test/colors.dart';
@@ -40,9 +44,11 @@ class _TopPickServiceState extends State<TopPickService> {
                     style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18))
               ]),
             ),
-            Flexible(
+            Container(
+              height: 100,
               child: ListView(
                 scrollDirection: Axis.horizontal,
+                // direction: Axis.horizontal,
                 children: [
                   ...snapshot.data!.docs.map((DocumentSnapshot document) {
                     return InkWell(
@@ -59,56 +65,45 @@ class _TopPickServiceState extends State<TopPickService> {
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(5),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  offset: Offset(0, 4),
-                                  blurRadius: 20,
-                                  color: Color(0xFFB0CCE1).withOpacity(0.32)),
-                            ],
-                            // borderRadius: BorderRadius.all(Radius.circular(2)),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: primaryColor.withOpacity(0.32),
-                              width: 0.1,
-                            ),
-                            // gradient: RadialGradient(colors: [
-                            //   Colors.white,
-                            //   primaryColor.withOpacity(0.32),
-                            // ], radius: 0.95, focal: Alignment.center),
-                          ),
-                          margin:
-                              EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                          width: 80,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
                                 width: 40,
                                 height: 40,
                                 child: Card(
-                                    child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(4),
-                                  child: Image.network(
-                                    document.get('imageUrl'),
-                                    fit: BoxFit.cover,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(4),
+                                    child: CachedNetworkImage(
+                                        imageUrl: document.get('imageUrl'),
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            GFShimmer(
+                                                showShimmerEffect: true,
+                                                mainColor: Colors.grey.shade300,
+                                                secondaryColor:
+                                                    Colors.grey.shade200,
+                                                child: Container(
+                                                  color: Colors.grey.shade300,
+                                                  height: 40,
+                                                  width: 40,
+                                                ))),
                                   ),
                                 )),
-                              ),
-                              Container(
-                                child: Text(
-                                  document.get('servicename'),
-                                  style: TextStyle(
-                                      fontSize: 12, color: primaryColor
-                                      // fontWeight: FontWeight.bold,
-                                      ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                            Container(
+                              width: 92,
+                              height: 40,
+                              child: Text(
+                                document.get('servicename'),
+                                style: TextStyle(
+                                  fontSize: 10, color: GFColors.FOCUS,
+                                  // fontWeight: FontWeight.bold,
                                 ),
-                              )
-                            ],
-                          ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     );
