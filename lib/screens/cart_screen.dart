@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:roi_test/colors.dart';
@@ -32,6 +33,8 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  DateTime selectedDate = new DateTime.now().add(new Duration(days: 1));
+
   var textStyle = TextStyle(color: Colors.grey);
   int discount = 30;
   String _address = '';
@@ -56,6 +59,33 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
+    final _dateController = TextEditingController();
+    //final _dateCtl = TextEditingController();
+
+    Future<Null> _selectDate(BuildContext context) async {
+      DateTime? picked = await showDatePicker(
+          context: context,
+          initialDate: selectedDate,
+          firstDate: new DateTime.now().add(new Duration(days: 1)),
+          //  firstDate: new DateTime.now().add(new Duration(days: 1)),
+          lastDate: DateTime(2101),
+          initialDatePickerMode: DatePickerMode.day,
+          builder: (BuildContext context, Widget? child) {
+            return Theme(
+              data: ThemeData(
+                primaryColor: primaryColor,
+              ),
+              child: child!,
+            );
+          });
+      if (picked != null && picked != selectedDate)
+        setState(() {
+          selectedDate = picked;
+          _dateController.text = picked.toString();
+        });
+    }
+
     final locationData = Provider.of<LocationProvider>(context);
     final _cartProvider = Provider.of<CartProvider>(context);
     // var userDetails = Provider.of<AuthProvider>(context);
@@ -192,7 +222,8 @@ class _CartScreenState extends State<CartScreen> {
                                 );
                               } else {
                                 EasyLoading.show(status: 'Please wait...');
-                                _saveOrder(_cartProvider, _payable);
+                                _saveOrder(
+                                    _cartProvider, _payable, selectedDate);
                                 // EasyLoading.showSuccess(
                                 //     'Your Order is Submitted ');
 
@@ -248,13 +279,89 @@ class _CartScreenState extends State<CartScreen> {
                   scrollDirection: Axis.vertical,
                   physics: AlwaysScrollableScrollPhysics(),
                   // physics: BouncingScrollPhysics(),
-                  padding: EdgeInsets.only(bottom: 100),
+                  padding: EdgeInsets.only(bottom: 150),
                   child: Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 8.0, bottom: 2, left: 8),
+                            child: Text(
+                              'Choose date of Service',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: TextFormField(
+                                cursorColor: Color(0xFFC41A3B),
+                                controller: _dateController,
+                                onTap: () async {
+                                  _selectDate(context);
+                                  // FocusScope.of(context)
+                                  //     .requestFocus(new FocusNode());
+                                },
+                                maxLines: 1,
+                                //initialValue: 'Aseem Wangoo',
+                                validator: (value) {
+                                  if (value!.isEmpty || value.length < 1) {
+                                    return 'Choose Date';
+                                  }
+                                },
+                                onSaved: (value) {
+                                  _dateController.text = value.toString();
+                                  print('${_dateController.text}');
+                                },
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                    // labelText: 'Select Date',
+                                    hintText: (selectedDate.toString()),
+                                    contentPadding: EdgeInsets.all(8),
+                                    icon: const Icon(Icons.calendar_today),
+                                    //labelStyle: TextStyle(
+                                    //fontSize: 16,
+                                    //decorationStyle:
+                                    //      TextDecorationStyle.solid),
+                                    enabledBorder: OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 2,
+                                            color: Theme.of(context)
+                                                .primaryColor)),
+                                    focusColor:
+                                        Theme.of(context).primaryColor)),
+                          ),
+                          // TextFormField(
+                          //   readOnly: true,
+                          //   controller: _dateCtl,
+                          //   decoration: InputDecoration(
+                          //       labelText: 'Date',
+                          //       hintText: _dateCtl.toString()),
+                          //   onTap: () async {
+                          //     await showDatePicker(
+                          //       context: context,
+                          //       initialDate: new DateTime.now()
+                          //           .add(new Duration(days: 1)),
+                          //       firstDate: new DateTime.now()
+                          //           .add(new Duration(days: 1)),
+                          //       lastDate: DateTime(2025),
+                          //     ).then((selectedDate) {
+                          //       if (selectedDate != null) {
+                          //         _dateCtl.text = DateFormat('yyyy-MM-dd')
+                          //             .format(selectedDate);
+                          //       }
+                          //     });
+                          //   },
+                          //   validator: (value) {
+                          //     if (value == null || value.isEmpty) {
+                          //       return 'Please enter date.';
+                          //     }
+                          //     return null;
+                          //   },
+                          // ),
                           SingleChildScrollView(
                             scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
@@ -496,7 +603,7 @@ class _CartScreenState extends State<CartScreen> {
         ));
   }
 
-  _saveOrder(CartProvider cartProvider, payable) {
+  _saveOrder(CartProvider cartProvider, payable, DateTime picked) {
     _orderServices.saveOrder({
       'serviceBookings': cartProvider.cartList,
       'userId': user.uid,
@@ -506,6 +613,7 @@ class _CartScreenState extends State<CartScreen> {
         'supervisorUid': widget.document.get('supervisorUid'),
       },
       'timestamp': DateTime.now().toString(),
+      'pickdate': picked.toString(),
       'orderStatus': 'Ordered',
       'serviceProvider': {'name': '', 'phone': '', 'location': ''} //deliveryBoy
     })!.then((value) {

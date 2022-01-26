@@ -25,6 +25,7 @@ class _MyOrdersState extends State<MyOrders> {
     'Ordered',
     'Accepted',
     'On the way',
+    'Start Service',
     'Service Completed',
   ];
   @override
@@ -138,24 +139,43 @@ class _MyOrdersState extends State<MyOrders> {
                                                 : Colors.orange,
                                       ),
                                     ),
-                                    title: Text(
-                                      document.get('orderStatus'),
-                                      style: TextStyle(
-                                          color: document.get('orderStatus') ==
-                                                  'Rejected'
-                                              ? Colors.red
-                                              : document.get('orderStatus') ==
-                                                      'Accepted'
-                                                  ? Colors.blueGrey[400]
-                                                  : Colors.orange,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    subtitle: Text(
-                                        'On ${DateFormat.yMMMd().format(DateTime.parse(document.get('timestamp')))}',
+                                    title: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Text(
+                                        document.get('orderStatus'),
                                         style: TextStyle(
-                                          fontSize: 12,
-                                        )),
+                                            color: document
+                                                        .get('orderStatus') ==
+                                                    'Rejected'
+                                                ? Colors.red
+                                                : document.get('orderStatus') ==
+                                                        'Accepted'
+                                                    ? Colors.blueGrey[400]
+                                                    : Colors.orange,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              'On ${DateFormat.yMMMd().format(DateTime.parse(document.get('timestamp')))}',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                              )),
+                                          Text(
+                                            'Service Date: ${DateFormat.yMMMd().format(DateTime.parse(document.get('pickdate')))}',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                     trailing: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,

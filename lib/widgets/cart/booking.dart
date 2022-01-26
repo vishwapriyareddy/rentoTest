@@ -115,7 +115,7 @@ class _BookingForCardState extends State<BookingForCard> {
                   EasyLoading.show(status: 'Adding to cart');
                   _cart.checkSupervisor().then((superviserName) {
                     if (superviserName ==
-                        widget.document.get('supervoisor')['serviceName']) {
+                        widget.document.get('supervoisor')['servicename']) {
                       setState(() {
                         _exist = true;
                       });
@@ -124,6 +124,7 @@ class _BookingForCardState extends State<BookingForCard> {
                       });
                       return;
                     }
+
                     if (superviserName == null) {
                       setState(() {
                         _exist = true;
@@ -134,7 +135,7 @@ class _BookingForCardState extends State<BookingForCard> {
                       return;
                     }
                     if (superviserName !=
-                        widget.document.get('supervoisor')['serviceName']) {
+                        widget.document.get('supervoisor')['servicename']) {
                       EasyLoading.dismiss();
                       showDialog(superviserName);
                     }
@@ -166,7 +167,7 @@ class _BookingForCardState extends State<BookingForCard> {
           return CupertinoAlertDialog(
             title: Text('Replace Cart item ?'),
             content: Text(
-                'Your cart contains items from $superviserName. Do you want to discard the selection and add items from ${widget.document.get('supervoisor')['serviceame']}'),
+                'Your cart contains items from $superviserName. Do you want to discard the selection and add items from ${widget.document.get('supervoisor')['servicename']}'),
             actions: [
               TextButton(
                 onPressed: () {
