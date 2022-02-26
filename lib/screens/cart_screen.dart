@@ -4,16 +4,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:roi_test/colors.dart';
+import 'package:roi_test/constants.dart';
 import 'package:roi_test/providers/auth_provider.dart';
 import 'package:roi_test/providers/cart_provider.dart';
 import 'package:roi_test/providers/location_provider.dart';
+import 'package:roi_test/providers/order_provider.dart';
 import 'package:roi_test/screens/map_screen.dart';
 import 'package:roi_test/screens/payment/payment_home.dart';
 import 'package:roi_test/screens/profile_screen.dart';
+import 'package:roi_test/screens/profile_update.dart';
 import 'package:roi_test/services/cart_services.dart';
 import 'package:roi_test/services/order_service.dart';
 import 'package:roi_test/services/user_services.dart';
@@ -34,10 +38,17 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   DateTime selectedDate = new DateTime.now().add(new Duration(days: 1));
+  String _firstName = '';
+  String _lastName = '';
 
   var textStyle = TextStyle(color: Colors.grey);
   int discount = 30;
   String _address = '';
+  String _location = '';
+
+  double _userLatitude = 0.0;
+  double _userLongitude = 0.0;
+  bool _checkinguser = false;
   UserServices _userService = UserServices();
   OrderServices _orderServices = OrderServices();
   CartServices _cartServices = CartServices();
@@ -45,17 +56,45 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     getPrefs();
+    getuser();
+
     super.initState();
   }
 
   getPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? location = prefs.getString('location');
     String? address = prefs.getString('address');
 
     setState(() {
+      _location = location!;
       _address = address!;
     });
   }
+
+  Future<void> getuser() async {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.uid)
+        .get()
+        .then((value) {
+      if (mounted) {
+        setState(() {
+          _firstName = value.data()!['firstName'].toString();
+          _lastName = value.data()!['lastName'].toString();
+        });
+      }
+    });
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  //   var orderStatus = Provider.of<OrderProvider>(context, listen: true);
+  //   orderStatus.paymentStatus(orderStatus.status);
+  //   debugPrint(orderStatus.paymentStatus(orderStatus.status));
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +127,9 @@ class _CartScreenState extends State<CartScreen> {
 
     final locationData = Provider.of<LocationProvider>(context);
     final _cartProvider = Provider.of<CartProvider>(context);
+    var userDetails = Provider.of<AuthProvider>(context);
+    final _orderProvider = Provider.of<OrderProvider>(context);
+    userDetails.getUserDetails();
     // var userDetails = Provider.of<AuthProvider>(context);
     var _payable = _cartProvider.subTotal;
     bool _loading = false;
@@ -160,10 +202,12 @@ class _CartScreenState extends State<CartScreen> {
                         ],
                       ),
                       Text(
-                        '${_address}',
-                        // maxLines: 3,
+                        _firstName != null
+                            ? '$_location,$_address'
+                            : '${_firstName}${_lastName} : $_location,_address',
+                        maxLines: 3,
                         style: TextStyle(color: Colors.grey, fontSize: 12),
-                        // overflow: TextOverflow.ellipsis,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
@@ -208,36 +252,48 @@ class _CartScreenState extends State<CartScreen> {
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.redAccent)),
                         onPressed: () {
+                          EasyLoading.show(status: 'Please wait...');
                           _userService.getUserById(user.uid).then((value) {
-                            if (mounted) {
-                              if (value.get('number') == null) {
-                                pushNewScreenWithRouteSettings(
-                                  context,
-                                  settings:
-                                      RouteSettings(name: ProfileScreen.id),
-                                  screen: ProfileScreen(),
-                                  withNavBar: true,
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.cupertino,
-                                );
-                              } else {
-                                EasyLoading.show(status: 'Please wait...');
-                                _saveOrder(
-                                    _cartProvider, _payable, selectedDate);
-                                // EasyLoading.showSuccess(
-                                //     'Your Order is Submitted ');
+                            // ? "${userDetails.snapshot!.get('firstName')} ${userDetails.snapshot!.get('lastName')}"
+                            // : !userDetails.snapshot!.exists ;
+                            //    getuser().then((value) {
+                            //    final bool hasNoProfileData =
+                            //      _firstName == null ? true : false;
+                            // if (value.get('firstName') == null) {
+                            //   EasyLoading.dismiss();
 
-                                // Navigator.pushNamed(
-                                //       context, PaymentHomePage.id);
-                              }
-                            }
+                            //   pushNewScreenWithRouteSettings(
+                            //     context,
+                            //     settings: RouteSettings(name: UpdateProfile.id),
+                            //     screen: UpdateProfile(),
+                            //     withNavBar: true,
+                            //     pageTransitionAnimation:
+                            //         PageTransitionAnimation.cupertino,
+                            //   );
+                            // } else {
+                            EasyLoading.dismiss();
+                            _orderProvider.totalAmount(_payable);
+                            Navigator.pushNamed(context, PaymentHomePage.id)
+                                .whenComplete(() {
+                              //  if (_orderProvider.success == true) {
+                              _saveOrder(_cartProvider, _payable, selectedDate);
+                              //}
+                            });
+
+                            //  EasyLoading.showSuccess('Your Order is Submitted ');
+
+                            // }
+                            //});
                           });
                         },
-                        child: Text(
-                          'CHECKOUT',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ))
+                        child: _checkinguser
+                            ? CircularProgressIndicator()
+                            : Text(
+                                'CHECKOUT',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ))
                   ],
                 ),
               ),
@@ -250,7 +306,7 @@ class _CartScreenState extends State<CartScreen> {
               SliverAppBar(
                 floating: true,
                 snap: true,
-                backgroundColor: Color(0xFF3c5784),
+                backgroundColor: cyan.withOpacity(0.8),
                 elevation: 0.0,
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -607,6 +663,7 @@ class _CartScreenState extends State<CartScreen> {
     _orderServices.saveOrder({
       'serviceBookings': cartProvider.cartList,
       'userId': user.uid,
+      //'userLocation': GeoPoint(_userLatitude, _userLongitude),
       'total': payable,
       'supervoisor': {
         'serviceName': widget.document.get('serviceName'),
@@ -615,13 +672,21 @@ class _CartScreenState extends State<CartScreen> {
       'timestamp': DateTime.now().toString(),
       'pickdate': picked.toString(),
       'orderStatus': 'Ordered',
-      'serviceProvider': {'name': '', 'phone': '', 'location': ''} //deliveryBoy
+      'star': 0,
+      'comment': '',
+      'serviceProvider': {
+        'name': '',
+        'phone': '',
+        'location': '',
+        'image': '',
+        'email': ''
+      } //deliveryBoy
     })!.then((value) {
       // after submitting order we need to clear cart
       _cartServices.deleteCart().then((value) {
         _cartServices.checkData().then((value) {
           EasyLoading.showSuccess('Your order is submitted');
-          Navigator.of(context).pop();
+          // Navigator.of(context).pop();
         });
       });
     });

@@ -1,12 +1,11 @@
-//import 'dart:html';
-
-//import 'dart:html';
-
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:roi_test/screens/favourites_screen.dart';
+import 'package:roi_test/colors.dart';
+import 'package:roi_test/constants.dart';
 import 'package:roi_test/screens/home_screen.dart';
 import 'package:roi_test/screens/my_orders_screen.dart';
 import 'package:roi_test/screens/profile_screen.dart';
@@ -25,9 +24,31 @@ class MainScreen extends StatelessWidget {
     PersistentTabController _controller;
 
     _controller = PersistentTabController(initialIndex: 0);
+    // void onback() {
+    //   AwesomeDialog(
+    //     dialogBackgroundColor: white,
+    //     context: context,
+    //     dialogType: DialogType.WARNING,
+    //     borderSide: BorderSide(color: white, width: 2),
+    //     width: 350,
+    //     buttonsBorderRadius: BorderRadius.all(Radius.circular(2)),
+    //     headerAnimationLoop: false,
+    //     animType: AnimType.BOTTOMSLIDE,
+    //     title: 'Exit',
+    //     desc: 'Are sure you want to exit ?',
+    //     buttonsTextStyle: TextStyle(fontSize: 12, color: primaryColor),
+    //     showCloseIcon: true,
+    //     btnCancelOnPress: () {
+    //       Navigator.pushNamed(context, MainScreen.id);
+    //     },
+    //     btnOkOnPress: () {
+    //       SystemNavigator.pop();
+    //     },
+    //   )..show();
+    // }
 
     List<Widget> _buildScreens() {
-      return [HomeScreen(), FavouritesScreen(), MyOrders(), ProfileScreen()];
+      return [HomeScreen(), MyOrders(), ProfileScreen()];
     }
 
     List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -35,25 +56,19 @@ class MainScreen extends StatelessWidget {
         PersistentBottomNavBarItem(
           icon: Icon(CupertinoIcons.home),
           title: ("Home"),
-          activeColorPrimary: Theme.of(context).primaryColor,
-          inactiveColorPrimary: CupertinoColors.systemGrey,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(CupertinoIcons.square_favorites_alt),
-          title: ("My Favourites"),
-          activeColorPrimary: Theme.of(context).primaryColor,
+          activeColorPrimary: cyan,
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),
         PersistentBottomNavBarItem(
           icon: Icon(CupertinoIcons.bag),
           title: ("My Orders"),
-          activeColorPrimary: Theme.of(context).primaryColor,
+          activeColorPrimary: cyan,
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),
         PersistentBottomNavBarItem(
           icon: Icon(CupertinoIcons.profile_circled),
           title: ("My Account"),
-          activeColorPrimary: Theme.of(context).primaryColor,
+          activeColorPrimary: cyan,
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),
       ];
@@ -96,7 +111,7 @@ class MainScreen extends StatelessWidget {
           duration: Duration(milliseconds: 200),
         ),
         navBarStyle:
-            NavBarStyle.style9, // Choose the nav bar style with this property.
+            NavBarStyle.style4, // Choose the nav bar style with this property.
       ),
     );
   }

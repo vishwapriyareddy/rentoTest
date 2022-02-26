@@ -1,7 +1,14 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roi_test/providers/auth_provider.dart';
 import 'package:roi_test/providers/location_provider.dart';
+import 'package:roi_test/screens/network/connectivity.dart';
+import 'package:roi_test/screens/network/network_status.dart';
+
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login-screen';
@@ -17,6 +24,20 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _validPhoneNumber = false;
   final _phoneNumbercontroller = TextEditingController();
+  bool hasInternet = false;
+  ConnectivityResult result = ConnectivityResult.none;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    InternetConnectionChecker().onStatusChange.listen((status) {
+      final hasInternet = status == InternetConnectionStatus.connected;
+      if (mounted) {
+        setState(() => this.hasInternet = hasInternet);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
@@ -42,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(color: Colors.red, fontSize: 12))
                       ]),
                     )),
-                Text('LOGIN',
+                Text('SIGN UP',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 Text('Enter your phone number to proceed',
@@ -76,29 +97,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: AbsorbPointer(
                       absorbing: _validPhoneNumber ? false : true,
                       child: TextButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          result = await Connectivity().checkConnectivity();
+                          showTopSnackbar(result, context);
                           //print(locationData.longitude);
-                          setState(() {
-                            auth.loading = true;
-                            auth.screen = 'Mapscree';
-                            auth.latitude = locationData.latitude;
-                            auth.longitude = locationData.longitude;
-                            auth.address = locationData.selectedAddress!;
-                          });
+                          // await Appservice().connection().then((hasinternet) {
+                          //   if (hasinternet == null) {
+                          //     Fluttertoast.showToast(
+                          //       msg: "Check your Internet connection",
+                          //       gravity: ToastGravity.BOTTOM,
+                          //     );
+                          //   } else {
+                          if (mounted) {
+                            setState(() {
+                              auth.loading = true;
+                              auth.screen = 'Mapscree';
+                              auth.latitude = locationData.latitude;
+                              auth.longitude = locationData.longitude;
+                              auth.address =
+                                  locationData.selectedAddress.addressLine!;
+                            });
+                          }
+
                           String number = '+91${_phoneNumbercontroller.text}';
                           auth
-                              .verifyPhone(
+                              .verifySignUpPhone(
                             context: context,
                             number: number,
                           )
                               .then((value) {
                             _phoneNumbercontroller.clear();
-                            setState(() {
-                              auth.loading = false;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                auth.loading = false;
+                              });
+                            }
+
                             //  Navigator.pushReplacementNamed(
                             //    context, HomeScreen.id);
                           });
+                          //}
+                          //});
+
                           //Navigator.pushReplacementNamed(
                           //   context, HomeScreen.id);
                         },
@@ -126,6 +166,41 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void showTopSnackbar(ConnectivityResult result, BuildContext context) {
+    var netConnect = false;
+
+    if (result != ConnectivityResult.none) {
+      netConnect = true;
+    }
+
+    if (result == ConnectivityResult.mobile) {
+      Fluttertoast.showToast(
+        msg: "Mobile Internet",
+        gravity: ToastGravity.BOTTOM,
+      );
+    } else if (result == ConnectivityResult.wifi) {
+      Fluttertoast.showToast(
+        msg: "Wifi Internet",
+        gravity: ToastGravity.BOTTOM,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: "No Internet",
+        gravity: ToastGravity.BOTTOM,
+      );
+    }
+
+    final message = netConnect ? 'You have Internet' : 'You have no Internet !';
+    final color = netConnect ? Colors.green : Colors.red;
+
+    showSimpleNotification(
+      Text(
+        message,
+      ),
+      background: color,
     );
   }
 }

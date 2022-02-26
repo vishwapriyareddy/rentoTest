@@ -77,18 +77,25 @@ class _VenndorBannerState extends State<VenndorBanner> {
                           Map<String, dynamic>? getImage = sliderImage.data();
                           return SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            child: CachedNetworkImage(
-                                imageUrl: getImage!['imageUrl'],
-                                fit: BoxFit.contain,
-                                placeholder: (context, url) => GFShimmer(
-                                    showShimmerEffect: true,
-                                    mainColor: Colors.grey.shade400,
-                                    secondaryColor: Colors.grey.shade200,
-                                    child: Container(
-                                      color: Colors.grey.shade300,
-                                      height: 200,
-                                      width: MediaQuery.of(context).size.width,
-                                    ))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: CachedNetworkImage(
+                                    imageUrl: getImage!['imageUrl'],
+                                    fit: BoxFit.contain,
+                                    placeholder: (context, url) => GFShimmer(
+                                        showShimmerEffect: true,
+                                        mainColor: Colors.grey.shade400,
+                                        secondaryColor: Colors.grey.shade200,
+                                        child: Container(
+                                          color: Colors.grey.shade300,
+                                          height: 200,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                        ))),
+                              ),
+                            ),
                           );
                         },
                         options: CarouselOptions(

@@ -35,7 +35,7 @@ class _TopPickServiceState extends State<TopPickService> {
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10),
               child: Row(children: [
                 SizedBox(
                     height: 30,
@@ -45,6 +45,7 @@ class _TopPickServiceState extends State<TopPickService> {
               ]),
             ),
             Container(
+              color: Colors.white,
               height: 100,
               child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -64,32 +65,32 @@ class _TopPickServiceState extends State<TopPickService> {
                         );
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: Card(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4),
-                                    child: CachedNetworkImage(
-                                        imageUrl: document.get('imageUrl'),
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) =>
-                                            GFShimmer(
-                                                showShimmerEffect: true,
-                                                mainColor: Colors.grey.shade300,
-                                                secondaryColor:
-                                                    Colors.grey.shade200,
-                                                child: Container(
-                                                  color: Colors.grey.shade300,
-                                                  height: 40,
-                                                  width: 40,
-                                                ))),
-                                  ),
-                                )),
+                              height: 40,
+                              width: 40,
+                              child: Card(
+                                color: Colors.white,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: CachedNetworkImage(
+                                      imageUrl: document.get('imageUrl'),
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => GFShimmer(
+                                          showShimmerEffect: true,
+                                          mainColor: Colors.grey.shade300,
+                                          secondaryColor: Colors.grey.shade200,
+                                          child: Container(
+                                            color: Colors.grey.shade300,
+                                            height: 40,
+                                            width: 40,
+                                          ))),
+                                ),
+                              ),
+                            ),
                             Container(
                               width: 92,
                               height: 40,

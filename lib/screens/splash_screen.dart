@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Timer(
-        Duration(
-          seconds: 3,
-        ), () {
+    Timer.run(() {
       //   Navigator.pushReplacement(
       //context,
       //MaterialPageRoute(
@@ -44,7 +40,6 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacementNamed(context, WelcomeScreen.id);
       }
     });
-
     super.initState();
   }
 

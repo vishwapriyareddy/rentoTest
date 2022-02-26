@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:roi_test/providers/location_provider.dart';
 import 'package:roi_test/screens/main_screen.dart';
 import 'package:roi_test/screens/map_screen.dart';
+import 'package:roi_test/screens/network/network_status.dart';
 import 'package:roi_test/services/user_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -60,71 +61,83 @@ class _LandingScreenState extends State<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(_location == null ? '' : _location!),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              _address == null ? 'Service Address not set' : _address!,
-              style: TextStyle(fontWeight: FontWeight.bold),
+    return NetworkSensitive(
+      child: Scaffold(
+          body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(_location == null ? '' : _location!),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              _address == null
-                  ? 'Please update your Service Location'
-                  : _address!,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
+            Visibility(
+              visible: _location != null ? true : false,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Service Address not set',
+                  // _address != null ? 'Service Address not set' : _address!,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
-          ),
-          CircularProgressIndicator(),
-          Container(
-              width: 600,
-              child: Image.asset(
-                'images/landing.png',
-                fit: BoxFit.fill,
-                color: Colors.black12,
-              )),
-          Visibility(
-            visible: _location != null ? true : false,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, MainScreen.id);
-              },
-              child: Text('Confirm Your Location',
-                  style: TextStyle(color: Colors.white)),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).primaryColor)),
+            Visibility(
+              visible: _location != null ? true : false,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  _address == null
+                      ? 'Please update your Service Location'
+                      : _address!,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
             ),
-          ),
-          TextButton(
-            onPressed: () {
-              _locationProvider.getCurrentPosition();
-              if (_locationProvider.selectedAddress != null) {
-                Navigator.pushReplacementNamed(context, MapScreen.id);
-              } else {
-                print('permission not allowed');
-              }
-            },
-            child: Text(
-                _location != null ? 'Update location' : 'Set Your Location',
-                style: TextStyle(color: Colors.white)),
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Theme.of(context).primaryColor)),
-          ),
-        ],
-      ),
-    ));
+            CircularProgressIndicator(),
+            Container(
+                width: 200,
+                child: Image.asset(
+                  'images/landing.png',
+                  fit: BoxFit.contain,
+                  //   color: Colors.black12,
+                )),
+            Visibility(
+              visible: _location != null ? true : false,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, MainScreen.id);
+                },
+                child: Text('Confirm Your Location',
+                    style: TextStyle(color: Colors.white)),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        Theme.of(context).primaryColor)),
+              ),
+            ),
+            Visibility(
+              visible: _location != null ? true : false,
+              child: TextButton(
+                onPressed: () {
+                  _locationProvider.getCurrentPosition();
+                  if (_locationProvider.selectedAddress != null) {
+                    Navigator.pushReplacementNamed(context, MapScreen.id);
+                  } else {
+                    print('permission not allowed');
+                  }
+                },
+                child: Text('Set your location',
+                    //_location != null ? 'Update location' : 'Set Your Location',
+                    style: TextStyle(color: Colors.white)),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        Theme.of(context).primaryColor)),
+              ),
+            ),
+          ],
+        ),
+      )),
+    );
   }
 }

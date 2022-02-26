@@ -4,7 +4,6 @@ import 'package:roi_test/services/cart_services.dart';
 
 class CartProvider with ChangeNotifier {
   DocumentSnapshot? document;
-
   double subTotal = 0.0;
   double saving = 0.0;
   List cartList = [];

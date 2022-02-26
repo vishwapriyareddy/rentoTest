@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:roi_test/constants.dart';
 
 class ImageSlider extends StatefulWidget {
   const ImageSlider({Key? key}) : super(key: key);
@@ -63,19 +64,26 @@ class _ImageSliderState extends State<ImageSlider> {
                           Map<String, dynamic>? getImage = sliderImage.data();
                           return SizedBox(
                               width: MediaQuery.of(context).size.width,
-                              child: CachedNetworkImage(
-                                  imageUrl: getImage!['image'],
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => GFShimmer(
-                                      showShimmerEffect: true,
-                                      mainColor: Colors.grey.shade400,
-                                      secondaryColor: Colors.grey.shade200,
-                                      child: Container(
-                                        color: Colors.grey.shade300,
-                                        height: 200,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                      ))));
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: CachedNetworkImage(
+                                      imageUrl: getImage!['image'],
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => GFShimmer(
+                                          showShimmerEffect: true,
+                                          mainColor: Colors.grey.shade400,
+                                          secondaryColor: Colors.grey.shade200,
+                                          child: Container(
+                                            color: Colors.grey.shade300,
+                                            height: 200,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                          ))),
+                                ),
+                              ));
                         },
                         options: CarouselOptions(
                             viewportFraction: 1,
@@ -96,11 +104,12 @@ class _ImageSliderState extends State<ImageSlider> {
               dotsCount: _dataLength,
               position: _index.toDouble(),
               decorator: DotsDecorator(
-                  size: const Size.square(5.0),
-                  activeSize: const Size(18.0, 5.0),
-                  activeShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0)),
-                  activeColor: Theme.of(context).primaryColor),
+                size: const Size.square(5.0),
+                activeSize: const Size(18.0, 5.0),
+                activeShape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0)),
+                activeColor: cyan.withOpacity(0.8),
+              ),
             )
         ],
       ),

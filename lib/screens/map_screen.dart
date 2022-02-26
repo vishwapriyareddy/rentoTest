@@ -86,11 +86,7 @@ class _MapScreenState extends State<MapScreen> {
               });
               locationData.onCameraMove(position);
             },
-            onMapCreated: (controller) {
-              setState(() {
-                _mapController = controller;
-              });
-            },
+            onMapCreated: onCreated,
             onCameraIdle: () {
               setState(() {
                 _locating = false;
@@ -140,16 +136,21 @@ class _MapScreenState extends State<MapScreen> {
                         label: Text(
                           _locating
                               ? "Locating..."
-                              : locationData.selectedAddress!,
+                              : locationData.selectedAddress.featureName!,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                               color: primaryColor),
                         )),
                     Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(left: 20, right: 20),
                       child: Text(
-                        _locating ? "" : locationData.selectedAddress!,
+                        _locating
+                            ? ""
+                            : locationData.selectedAddress.addressLine!,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(color: Colors.black54, fontSize: 12),
                       ),
                     ),
@@ -174,10 +175,11 @@ class _MapScreenState extends State<MapScreen> {
                               } else {
                                 setState(() {
                                   _auth.latitude = locationData.latitude;
-                                  _auth.longitude = locationData.longitude!;
-                                  _auth.address = locationData.selectedAddress!;
+                                  _auth.longitude = locationData.longitude;
+                                  _auth.address =
+                                      locationData.selectedAddress.addressLine!;
                                   _auth.location =
-                                      locationData.selectedAddress!;
+                                      locationData.selectedAddress.featureName!;
                                 });
                                 _auth.updateUser(
                                   id: user!.uid,

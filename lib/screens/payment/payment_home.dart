@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+import 'package:roi_test/constants.dart';
+import 'package:roi_test/providers/order_provider.dart';
+
 import 'package:roi_test/screens/payment/razorpayment_screen.dart';
 
 class PaymentHomePage extends StatefulWidget {
@@ -12,6 +16,10 @@ class PaymentHomePage extends StatefulWidget {
 }
 
 class PaymentHomePageState extends State<PaymentHomePage> {
+  //final _paymentItems = <PaymentItem>[];
+  // void onGooglePayResult(paymentResult) {
+  //   print(paymentResult);
+  // }
   // onItemPress(BuildContext context, int index) async {
   //   switch (index) {
   //     case 0:
@@ -30,14 +38,21 @@ class PaymentHomePageState extends State<PaymentHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final _orderProvider = Provider.of<OrderProvider>(context);
+    // _paymentItems.add(PaymentItem(
+    //   label: 'Total',
+    //   amount: _orderProvider.amount.toString(),
+    //   status: PaymentItemStatus.final_price,
+    // ));
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
         appBar: AppBar(
           title: Text("Payment", style: TextStyle(color: Colors.white)),
-          backgroundColor: Color(0xFF3c5784),
+          backgroundColor: cyan.withOpacity(0.8),
         ),
         backgroundColor: Colors.white,
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Material(
               elevation: 4,
@@ -50,6 +65,12 @@ class PaymentHomePageState extends State<PaymentHomePage> {
                         Image.asset("images/razorPay.png", fit: BoxFit.contain),
                   )),
             ),
+            Text(
+              'Total Amount to pay: ${_orderProvider.amount}',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+
             Padding(
               padding: const EdgeInsets.only(
                   top: 8.0, bottom: 8, left: 40, right: 40),

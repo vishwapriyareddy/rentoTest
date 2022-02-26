@@ -60,83 +60,73 @@ class _VendorCategoriesState extends State<VendorCategories> {
           return Container();
         }
         return SingleChildScrollView(
-          child: Column(
-            children: [
-              Wrap(
-                direction: Axis.horizontal,
-                children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                  return _catList.contains(document.get('name'))
-                      ? InkWell(
-                          onTap: () {
-                            _storeProvider.getSelectedServiceCategory(
-                                document.get('name'));
-                            _storeProvider.getSelectedServiceCategorySub(null);
+          child: Wrap(
+            // padding: EdgeInsets.zero,
+            //shrinkWrap: true,
+            //physics: NeverScrollableScrollPhysics(),
+            direction: Axis.horizontal,
+            children: snapshot.data!.docs.map((DocumentSnapshot document) {
+              return _catList.contains(document.get('name'))
+                  ? InkWell(
+                      onTap: () {
+                        _storeProvider
+                            .getSelectedServiceCategory(document.get('name'));
+                        _storeProvider.getSelectedServiceCategorySub(null);
 
-                            pushNewScreenWithRouteSettings(
-                              context,
-                              settings: RouteSettings(name: ProductList.id),
-                              screen: ProductList(),
-                              withNavBar: true,
-                              pageTransitionAnimation:
-                                  PageTransitionAnimation.cupertino,
-                            );
-                            // print(document.get('name'));
-                          },
-                          child: Container(
-                            // color: Colors.white,
-                            width: 120,
-                            height: 150,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.white, width: .5)),
-                              child: Card(
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 75,
-                                      width: 120,
-                                      child: Center(
-                                        child: CachedNetworkImage(
-                                            imageUrl: document.get('image'),
-                                            fit: BoxFit.contain,
-                                            placeholder: (context, url) =>
-                                                GFShimmer(
-                                                    showShimmerEffect: true,
-                                                    mainColor:
-                                                        Colors.grey.shade300,
-                                                    secondaryColor:
-                                                        Colors.grey.shade200,
-                                                    child: Container(
-                                                      color:
-                                                          Colors.grey.shade300,
-                                                      height: 75,
-                                                      width: 110,
-                                                      // width: 120,
-                                                    ))
-                                            // width: MediaQuery.of(context).size.width *
-                                            //   0.5,
-                                            ),
-                                      ),
+                        pushNewScreenWithRouteSettings(
+                          context,
+                          settings: RouteSettings(name: ProductList.id),
+                          screen: ProductList(),
+                          withNavBar: true,
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
+                        // print(document.get('name'));
+                      },
+                      child: ListTile(
+                        contentPadding: EdgeInsets.all(4),
+                        tileColor: Colors.white,
+                        title: Row(
+                          children: [
+                            SizedBox(
+                              height: 65,
+                              width: 120,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: CachedNetworkImage(
+                                    imageUrl: document.get('image'),
+                                    fit: BoxFit.contain,
+                                    placeholder: (context, url) => GFShimmer(
+                                        showShimmerEffect: true,
+                                        mainColor: Colors.grey.shade300,
+                                        secondaryColor: Colors.grey.shade200,
+                                        child: Container(
+                                          color: Colors.grey.shade300,
+                                          height: 75,
+                                          width: 110,
+                                          // width: 120,
+                                        ))
+                                    // width: MediaQuery.of(context).size.width *
+                                    //   0.5,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8, right: 8),
-                                      child: Text(
-                                        document.get('name'),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    )
-                                  ],
-                                ),
                               ),
                             ),
-                          ),
-                        )
-                      : Text('');
-                }).toList(),
-              ),
-            ],
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8, right: 8),
+                              child: Text(
+                                document.get('name'),
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          ],
+                        ),
+                        subtitle: Divider(
+                          thickness: 1,
+                        ),
+                      ),
+                    )
+                  : Text('');
+            }).toList(),
           ),
         );
       },

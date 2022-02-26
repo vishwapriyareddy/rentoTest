@@ -26,6 +26,7 @@ class VendorHomeScreen extends StatelessWidget {
               return [VendorAppBar()];
             },
             body: ListView(
+                padding: EdgeInsets.zero,
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: [

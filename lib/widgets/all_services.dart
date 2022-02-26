@@ -60,8 +60,11 @@ class _AllServicesState extends State<AllServices> {
             direction: Axis.horizontal,
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: Row(children: [
+                  SizedBox(
+                    width: 12,
+                  ),
                   Text('All Services',
                       style:
                           TextStyle(fontWeight: FontWeight.w900, fontSize: 18))
@@ -81,7 +84,7 @@ class _AllServicesState extends State<AllServices> {
                     );
                   },
                   child: Padding(
-                    padding: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.only(left: 10),
                     child: Container(
                       width: 90,
                       height: 100,
