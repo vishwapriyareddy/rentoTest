@@ -10,6 +10,7 @@ import 'package:getwidget/components/shimmer/gf_shimmer.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:roi_test/colors.dart';
+import 'package:roi_test/constants.dart';
 import 'package:roi_test/providers/service_store.dart';
 import 'package:roi_test/screens/vendor_home_screen.dart';
 import 'package:roi_test/services/services.dart';
@@ -45,8 +46,8 @@ class _TopPickServiceState extends State<TopPickService> {
               ]),
             ),
             Container(
-              color: Colors.white,
-              height: 100,
+              //  color: Colors.white,
+              height: 120,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 // direction: Axis.horizontal,
@@ -70,10 +71,10 @@ class _TopPickServiceState extends State<TopPickService> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: 40,
-                              width: 40,
+                              height: 60,
+                              width: 60,
                               child: Card(
-                                color: Colors.white,
+                                color: lightColor,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(4),
                                   child: CachedNetworkImage(
@@ -85,8 +86,8 @@ class _TopPickServiceState extends State<TopPickService> {
                                           secondaryColor: Colors.grey.shade200,
                                           child: Container(
                                             color: Colors.grey.shade300,
-                                            height: 40,
-                                            width: 40,
+                                            height: 50,
+                                            width: 50,
                                           ))),
                                 ),
                               ),

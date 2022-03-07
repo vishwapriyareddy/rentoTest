@@ -111,15 +111,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Visibility(
-                            visible: auth.error == 'Invalid OTP' ? true : false,
-                            child: Container(
-                              child: Column(children: [
-                                Text(auth.error,
-                                    style: TextStyle(
-                                        color: Colors.red, fontSize: 12))
-                              ]),
-                            )),
+                        // Visibility(
+                        //     visible: auth.error == 'Invalid OTP' ? true : false,
+                        //     child: Container(
+                        //       child: Column(children: [
+                        //         Text(auth.error,
+                        //             style: TextStyle(
+                        //                 color: Colors.red, fontSize: 12))
+                        //       ]),
+                        //     )),
                         SizedBox(
                           height: 50,
                         ),
@@ -193,7 +193,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                         '+91${_phoneNumbercontroller.text}';
 
                                     auth
-                                        .verifyLoginPhone(
+                                        .verifyPhone(
                                       context: context,
                                       number: number,
                                     )
@@ -349,7 +349,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                       await locationData.getCurrentPosition();
                       if (locationData.permissionAllowed == true) {
-                        Navigator.push(
+//                      Navigator.pushNamed(context, LoginScreen.id);
+ Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MapScreen()));
@@ -368,11 +369,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             valueColor:
                                 AlwaysStoppedAnimation<Color>(Colors.white),
                           )
-                        : Text("Sign-Up",
-                            style: GoogleFonts.poppins(
-                                color: white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500)),
+                        :Text("Sign-Up",
+                        style: GoogleFonts.poppins(
+                            color: white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500)),
                   ),
                 ),
                 SizedBox(

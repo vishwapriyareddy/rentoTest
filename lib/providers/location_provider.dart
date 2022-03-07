@@ -89,15 +89,15 @@ class LocationProvider with ChangeNotifier {
       this.latitude = position.latitude;
       this.longitude = position.longitude;
       final coordinates = new Coordinates(this.latitude, this.longitude);
-      final addresses = await Geocoder.local
-          .findAddressesFromCoordinates(coordinates);
+      final addresses =
+          await Geocoder.local.findAddressesFromCoordinates(coordinates);
       this.selectedAddress = addresses.first;
       this.permissionAllowed = true;
       notifyListeners();
     } else {
       print('Permission not allowed');
     }
-    return position;
+      return position;
   }
 
   void onCameraMove(CameraPosition cameraPosition) async {

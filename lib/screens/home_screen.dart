@@ -97,92 +97,113 @@ class _HomeScreenState extends State<HomeScreen> {
                 // mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipPath(
-                    clipper: BezierClipper(),
-                    child: Container(
-                      height: 180,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            // colors: [Color(0xffffd89b), cyan],
-                            colors: [harvey, cyan],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight),
+                  Stack(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 120.0),
+                        alignment: Alignment.topCenter,
+                        height: 200.0,
+                        decoration: BoxDecoration(
+                            color: cyan,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.elliptical(50, 50),
+                              bottomRight: Radius.elliptical(50, 50),
+                            )),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: SizedBox(
+                                        height: 45,
+                                        width: 45,
+                                        child:
+                                            Image.asset("images/splash.png")),
+                                  ),
+                                  // IconButton(
+                                  //   icon: Icon(
+                                  //     Icons.sort,
+                                  //     color: Colors.black87,
+                                  //     size: 30,
+                                  //   ),
+                                  //   onPressed: () => {},
+                                  // ),
+                                  // IconButton(
+                                  //   color: white,
+                                  //   icon: Icon(
+                                  //     CupertinoIcons.cart_fill,
+                                  //     color: Colors.white,
+                                  //     size: 30,
+                                  //   ),
+                                  //   onPressed: () {},
+                                  // ),
+                                ],
+                              ),
+                              // Padding(
+                              //   padding:
+                              //       const EdgeInsets.symmetric(horizontal: 5),
+                              //   child: Locationfetch(
+                              //     locationData: locationData,
+                              //     address: _address,
+                              //     location: _location,
+                              //   ),
+                              // ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(horizontal: 5),
+                              //   child: Text(
+                              //     "Hi Anup!",
+                              //     // style: TextStyle(fontSize: 25,color: Colors.white),
+                              //     style: GoogleFonts.montserrat(
+                              //         fontSize: 25, color: white),
+                              //   ),
+                              // ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                child: Locationfetch(
+                                  locationData: locationData,
+                                  address: _address,
+                                  location: _location,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              // Serachbarwidget(),
+                            ],
+                          ),
+                        ),
+
                         // gradient: LinearGradient(
                         //     colors: [cyan, Color(0xffffd89b),],
                         //     begin: Alignment.topLeft,end: Alignment.bottomRight),
                         // color:
                         //     Color.fromARGB(255, 9, 163, 184).withOpacity(0.9)
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 12,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: SizedBox(
-                                      height: 45,
-                                      width: 45,
-                                      child: Image.asset("images/splash.png")),
-                                ),
-                                // IconButton(
-                                //   icon: Icon(
-                                //     Icons.sort,
-                                //     color: Colors.black87,
-                                //     size: 30,
-                                //   ),
-                                //   onPressed: () => {},
-                                // ),
-                                IconButton(
-                                  color: white,
-                                  icon: Icon(
-                                    CupertinoIcons.cart_fill,
-                                    color: Colors.white,
-                                    size: 30,
-                                  ),
-                                  onPressed: () {},
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            // Padding(
-                            //   padding: const EdgeInsets.symmetric(horizontal: 5),
-                            //   child: Text(
-                            //     "Hi Anup!",
-                            //     // style: TextStyle(fontSize: 25,color: Colors.white),
-                            //     style: GoogleFonts.montserrat(
-                            //         fontSize: 25, color: white),
-                            //   ),
-                            // ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                              child: Locationfetch(
-                                locationData: locationData,
-                                address: _address,
-                                location: _location,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            // Serachbarwidget(),
-                          ],
-                        ),
-                      ),
-                    ),
+                      Positioned(
+                        top: 120.0,
+                        right: 0.0,
+                        left: 0.0,
+                        child: ImageSlider(),
+                      )
+                    ],
                   ),
-                  SizedBox(height: 20),
-                  ImageSlider(),
+
+                  // SizedBox(height: 50),
+                  //ImageSlider(),
                   SizedBox(width: 20),
                   TopPickService(),
                   // SizedBox(width: 8),

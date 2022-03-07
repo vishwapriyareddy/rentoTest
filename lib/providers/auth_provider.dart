@@ -36,65 +36,69 @@ class AuthProvider with ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   var isValidUser = false;
 
-  Future<void> verifyLoginPhone({
-    BuildContext? context,
-    String? number,
-  }) async {
-    await _firestore
-        .collection('users')
-        .where('number', isEqualTo: number)
-        .get()
-        .then((result) {
-      if (result.docs.length > 0) {
-        isValidUser = true;
-      }
-    });
-    if (isValidUser) {
-      this.loading = true;
-      notifyListeners();
-      final PhoneVerificationCompleted verificationCompleted =
-          (PhoneAuthCredential credential) async {
-        this.loading = false;
-        notifyListeners();
-        await _auth.signInWithCredential(credential);
-      };
-      final PhoneVerificationFailed verificationFailed =
-          (FirebaseAuthException e) {
-        this.loading = false;
-        print(e.code);
-        this.error = e.toString();
-        notifyListeners();
-      };
-      final PhoneCodeSent smsOtpSend = (String verId, int? resendToken) async {
-        verificationId = verId;
-        smsOtpDialog(context!, number!);
-      };
-      try {
-        _auth.verifyPhoneNumber(
-            phoneNumber: number!,
-            verificationCompleted: verificationCompleted,
-            verificationFailed: verificationFailed,
-            codeSent: smsOtpSend,
-            codeAutoRetrievalTimeout: (String verId) {
-              verificationId = verId;
-            });
-      } catch (e) {
-        this.error = e.toString();
-        this.loading = false;
-        notifyListeners();
-        print(e);
-      }
-    } else {
-      this.loading = false;
-      notifyListeners();
-      Fluttertoast.showToast(
-        msg: "Number not found , Sign up first",
-        gravity: ToastGravity.BOTTOM,
-      );
-    }
-  }
+  // Future<void> verifyLoginPhone({
+  //   BuildContext? context,
+  //   String? number,
+  // }) async {
+  //   await _firestore
+  //       .collection('users')
+  //       .where('number', isEqualTo: number)
+  //       .get()
+  //       .then((result) {
+  //     if (result.docs.length > 0) {
+  //       isValidUser = true;
+  //     }
+  //   });
+  //   if (isValidUser) {
+  //     this.loading = true;
+  //     notifyListeners();
+  //     final PhoneVerificationCompleted verificationCompleted =
+  //         (PhoneAuthCredential credential) async {
+  //       this.loading = false;
+  //       notifyListeners();
+  //       await _auth.signInWithCredential(credential);
+  //     };
+  //     final PhoneVerificationFailed verificationFailed =
+  //         (FirebaseAuthException e) {
+  //       this.loading = false;
+  //       print(e.code);
+  //       this.error = e.toString();
+  //       notifyListeners();
+  //     };
+  //     final PhoneCodeSent smsOtpSend = (String verId, int? resendToken) async {
+  //       verificationId = verId;
+  //       smsOtpDialog(context!, number!);
+  //     };
+  //     try {
+  //       _auth.verifyPhoneNumber(
+  //           phoneNumber: number!,
+  //           verificationCompleted: verificationCompleted,
+  //           verificationFailed: verificationFailed,
+  //           codeSent: smsOtpSend,
+  //           codeAutoRetrievalTimeout: (String verId) {
+  //             verificationId = verId;
+  //           });
+  //     } catch (e) {
+  //       this.error = e.toString();
+  //       this.loading = false;
+  //       notifyListeners();
+  //       Fluttertoast.showToast(
+  //         msg: e.toString(),
+  //         gravity: ToastGravity.BOTTOM,
+  //       );
+  //       print("The error is ${e.toString()} ");
+  //     }
+  //   } else {
+  //     this.loading = false;
+  //     notifyListeners();
+  //     Fluttertoast.showToast(
+  //       msg: "Number not found , Sign up first",
+  //       gravity: ToastGravity.BOTTOM,
+  //     );
+  //   }
+  // }
 
-  Future<void> verifySignUpPhone({
+  Future<void> verifyPhone({
     BuildContext? context,
     String? number,
   }) async {
@@ -104,7 +108,9 @@ class AuthProvider with ChangeNotifier {
         (PhoneAuthCredential credential) async {
       this.loading = false;
       notifyListeners();
-      await _auth.signInWithCredential(credential);
+      await _auth.signInWithCredential(
+        credential,
+      );
     };
     final PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException e) {
@@ -117,15 +123,18 @@ class AuthProvider with ChangeNotifier {
       verificationId = verId;
       smsOtpDialog(context!, number!);
     };
+
     try {
       _auth.verifyPhoneNumber(
-          phoneNumber: number!,
-          verificationCompleted: verificationCompleted,
-          verificationFailed: verificationFailed,
-          codeSent: smsOtpSend,
-          codeAutoRetrievalTimeout: (String verId) {
-            verificationId = verId;
-          });
+        phoneNumber: number!,
+        verificationCompleted: verificationCompleted,
+        verificationFailed: verificationFailed,
+        codeSent: smsOtpSend,
+        codeAutoRetrievalTimeout: (String verId) {
+          verificationId = verId;
+        },
+        //        timeout: Duration(seconds: 60)
+      );
     } catch (e) {
       this.error = e.toString();
       this.loading = false;
@@ -267,8 +276,11 @@ class AuthProvider with ChangeNotifier {
                               print('Login Failed');
                             }
                           } catch (e) {
-                            error = 'Invalid OTP';
-                            print(e.toString());
+                            // Fluttertoast.showToast(
+                            //   msg: "${e}",
+                            //   gravity: ToastGravity.BOTTOM,
+                            // );
+                            print('the error is${e.toString()}');
                             Navigator.of(context).pop();
                           }
                         },
@@ -300,7 +312,6 @@ class AuthProvider with ChangeNotifier {
       'number': number,
       'latitude': this.latitude,
       'longitude': this.longitude,
-      'address': this.address,
       'location': this.location,
       'firstName': '',
       'lastName': '',
@@ -377,6 +388,65 @@ class AuthProvider with ChangeNotifier {
     }
     return result;
   }
+
+  // Future<String> getCurrentPosition() async {
+  //   // Location location = Location();
+
+  //   // bool _serviceEnabled;
+  //   // PermissionStatus _permissionGranted;
+  //   // LocationData _locationData;
+
+  //   // _serviceEnabled = await location.serviceEnabled();
+  //   // if (!_serviceEnabled) {
+  //   //   _serviceEnabled = await location.requestService();
+  //   //   if (!_serviceEnabled) {
+  //   //     return;
+  //   //   }
+  //   // }
+
+  //   // _permissionGranted = await location.hasPermission();
+  //   // if (_permissionGranted == PermissionStatus.denied) {
+  //   //   _permissionGranted = await location.requestPermission();
+  //   //   if (_permissionGranted != PermissionStatus.granted) {
+  //   //     return;
+  //   //   }
+  //   // }
+
+  //   // _locationData = await location.getLocation();
+  //   // serviceLatitude = _locationData.latitude;
+  //   // serviceLongitude = _locationData.longitude;
+  //   // notifyListeners();
+  //   Position position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+
+  //   print(position);
+  //   List<Placemark> placemarks =
+  //       await placemarkFromCoordinates(position.latitude, position.longitude);
+
+  //   if (position != null) {
+  //     this.serviceLatitude = position.latitude;
+  //     this.serviceLongitude = position.longitude;
+  //     List<Placemark> placemarks =
+  //         await placemarkFromCoordinates(position.latitude, position.longitude);
+  //     Placemark newPlacemark = placemarks.first;
+  //     selectedAddress = newPlacemark.locality! +
+  //         '\n' +
+  //         newPlacemark.street! +
+  //         '\t' +
+  //         newPlacemark.subLocality! +
+  //         '\t' +
+  //         newPlacemark.thoroughfare! +
+  //         '\t' +
+  //         newPlacemark.name! +
+  //         '\t' +
+  //         newPlacemark.postalCode!;
+  //     this.permissionAllowed = true;
+  //     notifyListeners();
+  //   } else {
+  //     print('Permission not allowed');
+  //   }
+  //   return selectedAddress!;
+  // } //register vendorusers using email
 
   // Future<DocumentSnapshot> getUserDetails() async {
   //   DocumentSnapshot result = await FirebaseFirestore.instance

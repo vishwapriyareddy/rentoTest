@@ -54,9 +54,8 @@ def keystoreProperties = new Properties()
         applicationId "com.rentointegrated.rento"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode 2
+        versionCode 4
         multiDexEnabled true
-        versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
